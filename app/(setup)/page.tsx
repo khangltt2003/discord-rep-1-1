@@ -6,10 +6,6 @@ const SetupPage = async () => {
   //get profile
   const profile = await initialProfile();
 
-  if (!profile) {
-    return redirect("/sign-in");
-  }
-
   //get server
   const server = await db.server.findFirst({
     where: {

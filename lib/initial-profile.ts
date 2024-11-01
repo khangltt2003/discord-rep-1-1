@@ -1,12 +1,11 @@
 import { currentUser } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { CookingPot } from "lucide-react";
 
 export const initialProfile = async () => {
   //find the user in clerk database
   const user = await currentUser();
-  // console.log(user);
+
   if (!user) {
     return redirect("/sign-in");
   }
