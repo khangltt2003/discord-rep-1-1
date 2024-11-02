@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning={true}>
-        <body className={cn(`${font.className}antialiased`, "bg-slate-300 dark:bg-[#313338]")}>
+        <body className={cn(`${font.className}antialiased`, "bg-slate-300 dark:bg-[#3a62a7]")}>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} storageKey="discord-theme">
             {children}
           </ThemeProvider>
