@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 export const initialProfile = async () => {
   //find the user in clerk database
   const user = await currentUser();
-
+  // console.log(user);
   if (!user) {
     return redirect("/sign-in");
   }
