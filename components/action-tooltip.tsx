@@ -1,10 +1,8 @@
 "use client";
-
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { AlignCenter } from "lucide-react";
 
 interface ActionToolTipProps {
-  label: String;
+  label: string;
   children: React.ReactNode;
   side?: "top" | "right" | "bottom" | "left";
   align?: "start" | "center" | "end";

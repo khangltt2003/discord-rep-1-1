@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import Image from "next/image";
 
 import "@uploadthing/react/styles.css";
+import { useEffect, useState } from "react";
 
 interface FileUploadProps {
   onChange: (url?: string) => void;
@@ -12,7 +13,15 @@ interface FileUploadProps {
   endpoint: "messageFile" | "serverImage";
 }
 
-export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
+const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
+
   const fileType = value?.split(".").pop();
 
   //show image if image uploaded
@@ -45,3 +54,5 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
     />
   );
 };
+
+export default FileUpload;

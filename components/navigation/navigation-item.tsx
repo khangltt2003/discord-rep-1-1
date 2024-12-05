@@ -16,7 +16,7 @@ const NavigationItem = ({ id, imageUrl, name }: NavigationItemProps) => {
   const router = useRouter();
 
   const onClick = () => {
-    router.push(`/server/${id}`);
+    router.push(`/servers/${id}`);
   };
 
   return (
@@ -31,11 +31,11 @@ const NavigationItem = ({ id, imageUrl, name }: NavigationItemProps) => {
         />
         <div
           className={cn(
-            "relative group flex mx-3 h-[48px] w-[48px] rounded-[24px] group-hover:rounded-[16px] transition-all overflow-hidden",
+            "relative group flex mx-3 h-[48px] w-[48px] object-contain rounded-[24px] group-hover:rounded-[16px] transition-all overflow-hidden",
             params?.serverId === id && "bg-primary/10 text-primary rounded-[16px]"
           )}
         >
-          <Image src={imageUrl} width={20} height={20} alt="server" />
+          <Image className="z-50" src={imageUrl} fill={true} alt="server" />
         </div>
       </button>
     </ActionToolTip>
