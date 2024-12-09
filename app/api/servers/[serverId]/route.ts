@@ -1,5 +1,6 @@
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
+import { STATUS_CODES } from "http";
 import { NextResponse } from "next/server";
 
 //update server image and name
@@ -29,6 +30,7 @@ export async function PATCH(req: Request, { params }: { params: { serverId: stri
   }
 }
 
+//delete server
 export async function DELETE(req: Request, { params }: { params: { serverId: string } }) {
   try {
     const profile = await currentProfile();
@@ -44,12 +46,13 @@ export async function DELETE(req: Request, { params }: { params: { serverId: str
     await db.server.delete({
       where: {
         id: params.serverId,
+        profileId: profile.id,
       },
     });
 
     return new NextResponse("server deleted", { status: 200 });
   } catch (error) {
     console.log(error);
-    return new NextResponse("Internal Error", { status: 500 });
+    return new NextResponse("internal server error", { status: 500 });
   }
 }

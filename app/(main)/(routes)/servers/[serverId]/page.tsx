@@ -1,5 +1,5 @@
-const ServerPage = () => {
-  return <div>Server</div>;
+const serverpage = () => {
+  return <div>serverpage</div>;
 };
 
-export default ServerPage;
+export default serverpage;

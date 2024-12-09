@@ -40,6 +40,12 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
             <UserPlus className="h-4 w-4 ml-auto" />
           </DropdownMenuItem>
         )}
+        {isMod && (
+          <DropdownMenuItem className=" px-3 py-2 text-sm cursor-pointer" onClick={() => onOpen("createChannel", { server: server })}>
+            Create Channel
+            <CirclePlus className="h-4 w-4 ml-auto" />
+          </DropdownMenuItem>
+        )}
         {isAdmin && (
           <DropdownMenuItem className="px-3 py-2 text-sm cursor-pointer" onClick={() => onOpen("serverSetting", { server: server })}>
             Server Setting
@@ -52,12 +58,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
             <User className="h-4 w-4 ml-auto" />
           </DropdownMenuItem>
         )}
-        {isMod && (
-          <DropdownMenuItem className=" px-3 py-2 text-sm cursor-pointer">
-            Create Channel
-            <CirclePlus className="h-4 w-4 ml-auto" />
-          </DropdownMenuItem>
-        )}
+
         {isMod && <DropdownMenuSeparator />}
 
         {isAdmin && (
@@ -70,7 +71,10 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
           </DropdownMenuItem>
         )}
         {!isAdmin && (
-          <DropdownMenuItem className="text-red-600 dark:text-red-400 px-3 py-2 text-sm cursor-pointer">
+          <DropdownMenuItem
+            className="text-red-600 dark:text-red-400 px-3 py-2 text-sm cursor-pointer"
+            onClick={() => onOpen("leaveServer", { server: server })}
+          >
             Leave Server
             <LogOut className="h-4 w-4 ml-auto" />
           </DropdownMenuItem>

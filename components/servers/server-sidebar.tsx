@@ -1,8 +1,10 @@
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
-import { ChannelType } from "@prisma/client";
+import { ChannelType, MemberRole } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { ServerHeader } from "./server-header";
+import { ServerChannelBar } from "./server-channel-bar";
+import { Separator } from "../ui/separator";
 
 interface ServersidebarProps {
   serverId: string;
@@ -54,6 +56,14 @@ export const ServerSidebar = async ({ serverId }: ServersidebarProps) => {
   return (
     <div>
       <ServerHeader server={server} role={role} />
+      <Separator className=" bg-neutral-500  my-3" />
+      <ServerChannelBar label="text" server={server} channels={textChannels ? textChannels : []} role={role ? role : MemberRole.GUEST} />
+
+      <Separator className="  bg-neutral-500 my-3" />
+      <ServerChannelBar label="audio" server={server} channels={audioChannels ? audioChannels : []} role={role ? role : MemberRole.GUEST} />
+
+      <Separator className=" bg-neutral-500 my-3" />
+      <ServerChannelBar label="video" server={server} channels={videoChannels ? videoChannels : []} role={role ? role : MemberRole.GUEST} />
     </div>
   );
 };

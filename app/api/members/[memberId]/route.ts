@@ -61,7 +61,7 @@ export async function PATCH(req: Request, { params }: { params: { memberId: stri
   }
 }
 
-//delete member
+//kick member
 export async function DELETE(req: Request, { params }: { params: { memberId: string } }) {
   try {
     //check admin
@@ -111,6 +111,7 @@ export async function DELETE(req: Request, { params }: { params: { memberId: str
     });
     return NextResponse.json(server);
   } catch (error) {
+    console.log(error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }
