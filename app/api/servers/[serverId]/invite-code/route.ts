@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 
 import { v4 as uuidv4 } from "uuid";
 
-export async function PATCH(req: Request, { params }: { params: { serverId: string } }) {
+export async function PATCH(req: Request, props: { params: Promise<{ serverId: string }> }) {
+  const params = await props.params;
   try {
     const profile = await currentProfile();
 

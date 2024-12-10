@@ -92,7 +92,7 @@ export const CreateChannelModal = () => {
           <DialogDescription className="text-center dark:text-white ">Give new channel a name and a type.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8 font-semibold">
             <div className="space-y-8 px-6">
               <FormField
                 control={form.control}

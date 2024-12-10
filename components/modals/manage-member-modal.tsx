@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogTitle, DialogHeader, DialogDescription } f
 import { useModal } from "@/hooks/use-modal-store";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { CheckIcon, ChevronDown, Copy, DoorOpen, Loader2, ShieldAlert, ShieldCheck } from "lucide-react";
+import { CheckIcon, ChevronDown, DoorOpen, Loader2, ShieldAlert, ShieldCheck } from "lucide-react";
 import axios from "axios";
 import { ServerWithMembersWithProfiles } from "@/type";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -28,7 +28,6 @@ export const ManageMemberModal = () => {
   const router = useRouter();
 
   const [isMounted, setIsMounted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [loadingId, setLoadingId] = useState("");
 
   const isModalOpen = isOpen && type === "manageMember";
@@ -83,7 +82,7 @@ export const ManageMemberModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-neutral-700 text-white p-0 overflow-hidden ">
+      <DialogContent className="bg-neutral-700 text-white p-0 overflow-hidden font-semibold">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">Manage Members</DialogTitle>
           <DialogDescription className="text-center font-bold">{`${server?.members?.length} ${server?.members?.length > 1 ? "Members" : "Member"} `}</DialogDescription>

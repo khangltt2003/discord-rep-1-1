@@ -48,7 +48,7 @@ export const ServerMemberSidebar = async ({ serverId }: { serverId: string }) =>
   const guests = server.members.filter((member) => member.role === MemberRole.GUEST);
 
   return (
-    <div className="mt-3 mx-3 text-neutral-400 cursor-pointer ">
+    <div className="mt-3 mx-3 text-neutral-400 font-semibold">
       {admins.length > 0 && (
         <div className="mb-6">
           <p className="mb-2">Admin</p>
@@ -64,7 +64,7 @@ export const ServerMemberSidebar = async ({ serverId }: { serverId: string }) =>
         </div>
       )}
       {mods.length > 0 && (
-        <div className="mb-6">
+        <div className="mb-6 ">
           <p className="mb-2">Moderator</p>
           {mods.map((member) => {
             return (

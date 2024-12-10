@@ -9,17 +9,18 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import queryString from "query-string";
 
-export const LeaveServerModal = () => {
+export const DeleteChannelModal = () => {
   const { isOpen, onClose, type, data } = useModal();
 
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const isModalOpen = isOpen && type === "leaveServer";
+  const isModalOpen = isOpen && type === "deleteChannel";
 
-  const { server } = data;
+  const { server, channel } = data;
 
   useEffect(() => {
     setIsMounted(true);
@@ -29,13 +30,18 @@ export const LeaveServerModal = () => {
     return null;
   }
 
-  const handleLeaveServer = async () => {
+  const handleDeleteServer = async () => {
     try {
       setIsLoading(true);
-      await axios.patch(`/api/servers/${server?.id}/leave`);
+      const url = queryString.stringifyUrl({
+        url: `/api/channels/${channel?.id}`,
+        query: {
+          serverId: server?.id,
+        },
+      });
+      await axios.delete(url);
       onClose();
       router.refresh();
-      router.push("/");
     } catch (error) {
       console.log(error);
     } finally {
@@ -45,12 +51,12 @@ export const LeaveServerModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-neutral-700 text-white p-0 overflow-hidden font-semibold">
+      <DialogContent className="bg-neutral-700 text-white p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
-          <DialogTitle className="text-2xl text-center font-bold">Leave Server</DialogTitle>
+          <DialogTitle className="text-2xl text-center font-bold">Delete Channel</DialogTitle>
         </DialogHeader>
         <div className="px-6">
-          Are you sure you want to leave <span className="font-bold">{server?.name}</span> ?
+          Are you sure you want to delete <span className="font-bold">{channel?.name}</span> ?
         </div>
         <DialogFooter>
           <div className="px-6  py-3 ml-auto">
@@ -59,8 +65,8 @@ export const LeaveServerModal = () => {
                 <Button variant={"link"} onClick={() => onClose()} className="focus-visible:ring-0 focus-visible:ring-offset-0">
                   Cancel
                 </Button>
-                <Button variant={"destructive"} className="bg-red-600 hover:bg-red-700" onClick={handleLeaveServer}>
-                  Leave
+                <Button variant={"destructive"} className="bg-red-600 hover:bg-red-700" onClick={handleDeleteServer}>
+                  Delete
                 </Button>
               </>
             ) : (

@@ -75,7 +75,7 @@ export const CreateServerModal = () => {
           <DialogDescription className="text-center text-zinc-500">Give your server a name and an image.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 font-semibold">
             <div className="spae-y-8 px-6">
               <div className="flex items-center justify-center text-center">
                 <FormField

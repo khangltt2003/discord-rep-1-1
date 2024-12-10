@@ -1,10 +1,10 @@
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
-import { STATUS_CODES } from "http";
 import { NextResponse } from "next/server";
 
 //update server image and name
-export async function PATCH(req: Request, { params }: { params: { serverId: string } }) {
+export async function PATCH(req: Request, props: { params: Promise<{ serverId: string }> }) {
+  const params = await props.params;
   const { name, imageUrl } = await req.json();
 
   try {
@@ -31,7 +31,8 @@ export async function PATCH(req: Request, { params }: { params: { serverId: stri
 }
 
 //delete server
-export async function DELETE(req: Request, { params }: { params: { serverId: string } }) {
+export async function DELETE(req: Request, props: { params: Promise<{ serverId: string }> }) {
+  const params = await props.params;
   try {
     const profile = await currentProfile();
 

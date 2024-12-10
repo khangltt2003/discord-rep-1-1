@@ -11,6 +11,8 @@ import { CreateChannelModal } from "../modals/create-channel-modal";
 import { CreateAudioChannelModal } from "../modals/create-channel-audio-modal";
 import { CreateTextChannelModal } from "../modals/create-channel-text-modal";
 import { CreateVideoChannelModal } from "../modals/create-channel-video-modal";
+import { EditChannelModal } from "../modals/edit-channel-modal";
+import { DeleteChannelModal } from "../modals/delete-channel-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -33,6 +35,8 @@ export const ModalProvider = () => {
       <CreateAudioChannelModal />
       <CreateTextChannelModal />
       <CreateVideoChannelModal />
+      <EditChannelModal />
+      <DeleteChannelModal />
     </>
   );
 };
