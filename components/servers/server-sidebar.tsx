@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { ServerHeader } from "./server-header";
 import { ServerChannelBar } from "./server-channel-bar";
 import { Separator } from "../ui/separator";
+import { ScrollArea } from "../ui/scroll-area";
 
 interface ServersidebarProps {
   serverId: string;
@@ -54,16 +55,19 @@ export const ServerSidebar = async ({ serverId }: ServersidebarProps) => {
   const role = server.members.find((member) => member.profileId === profile.id)?.role;
 
   return (
-    <div>
-      <ServerHeader server={server} role={role} />
-      <Separator className=" bg-neutral-500  my-3" />
-      <ServerChannelBar label="text" server={server} channels={textChannels ? textChannels : []} role={role ? role : MemberRole.GUEST} />
+    <div className=" h-full flex flex-col ">
+      <div className="h-12 w-full mb-3">
+        <ServerHeader server={server} role={role} />
+      </div>
+      <ScrollArea>
+        <ServerChannelBar label="text" server={server} channels={textChannels ? textChannels : []} role={role ? role : MemberRole.GUEST} />
+        <Separator className="  bg-neutral-500 my-3" />
 
-      <Separator className="  bg-neutral-500 my-3" />
-      <ServerChannelBar label="audio" server={server} channels={audioChannels ? audioChannels : []} role={role ? role : MemberRole.GUEST} />
+        <ServerChannelBar label="audio" server={server} channels={audioChannels ? audioChannels : []} role={role ? role : MemberRole.GUEST} />
+        <Separator className=" bg-neutral-500 my-3" />
 
-      <Separator className=" bg-neutral-500 my-3" />
-      <ServerChannelBar label="video" server={server} channels={videoChannels ? videoChannels : []} role={role ? role : MemberRole.GUEST} />
+        <ServerChannelBar label="video" server={server} channels={videoChannels ? videoChannels : []} role={role ? role : MemberRole.GUEST} />
+      </ScrollArea>
     </div>
   );
 };

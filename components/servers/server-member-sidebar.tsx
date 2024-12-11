@@ -4,6 +4,8 @@ import { redirect } from "next/navigation";
 import { UserAvatar } from "@/components/user-avatar";
 import { ShieldAlert, ShieldCheck } from "lucide-react";
 import { MemberRole } from "@prisma/client";
+import { ScrollArea } from "../ui/scroll-area";
+import { ServerWithChannelsWithMembersWithProfiles } from "@/type";
 
 const roleIconMap = {
   ADMIN: <ShieldAlert className="h-5 w-5 text-red-400" />,
@@ -11,33 +13,12 @@ const roleIconMap = {
   GUEST: null,
 };
 
-export const ServerMemberSidebar = async ({ serverId }: { serverId: string }) => {
+export const ServerMemberSidebar = async ({ server }: { server: ServerWithChannelsWithMembersWithProfiles }) => {
   const profile = await currentProfile();
 
   if (!profile) {
     return redirect("/sign-in");
   }
-
-  const server = await db.server.findUnique({
-    where: {
-      id: serverId,
-      members: {
-        some: {
-          profileId: profile?.id,
-        },
-      },
-    },
-    include: {
-      members: {
-        include: {
-          profile: true,
-        },
-        orderBy: {
-          role: "asc",
-        },
-      },
-    },
-  });
 
   if (!server) {
     return redirect("/");
@@ -48,7 +29,7 @@ export const ServerMemberSidebar = async ({ serverId }: { serverId: string }) =>
   const guests = server.members.filter((member) => member.role === MemberRole.GUEST);
 
   return (
-    <div className="mt-3 mx-3 text-neutral-400 font-semibold">
+    <ScrollArea className="mt-3 mx-3 text-neutral-400 font-semibold">
       {admins.length > 0 && (
         <div className="mb-6">
           <p className="mb-2">Admin</p>
@@ -91,6 +72,6 @@ export const ServerMemberSidebar = async ({ serverId }: { serverId: string }) =>
           })}
         </div>
       )}
-    </div>
+    </ScrollArea>
   );
 };

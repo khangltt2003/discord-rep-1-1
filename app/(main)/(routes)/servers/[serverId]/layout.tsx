@@ -4,10 +4,18 @@ import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 
-const ServerIdlayout = async ({ children, params }: { children: React.ReactNode; params: { serverId: string } }) => {
+const ServerIdlayout = async (
+  props: { children: React.ReactNode; params: Promise<{ serverId: string }> }
+) => {
+  const params = await props.params;
+
+  const {
+    children
+  } = props;
+
   const profile = await currentProfile();
 
-  const { serverId } = await params;
+  const { serverId } = params;
 
   if (!profile) {
     return redirect("/sign-in");
@@ -30,13 +38,10 @@ const ServerIdlayout = async ({ children, params }: { children: React.ReactNode;
 
   return (
     <div className="h-full flex">
-      <div className="hidden md:flex flex-col w-80 z-20 inset-y-0 bg-[#0000002c]">
+      <div className="hidden md:flex flex-col w-72 z-20 inset-y-0 bg-[#00000045]">
         <ServerSidebar serverId={serverId} />
       </div>
       <main className="h-full w-full">{children}</main>
-      <div className="hidden md:flex flex-col w-72 z-20 inset-y-0 bg-[#0000002c]">
-        <ServerMemberSidebar serverId={serverId} />
-      </div>
     </div>
   );
 };
