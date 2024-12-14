@@ -3,6 +3,7 @@ import { Hash, Video, Volume2Icon } from "lucide-react";
 import MobileToggle from "../mobile-toggle";
 import ServerSearch from "../servers/server-search";
 import { ServerWithChannelsWithMembersWithProfiles } from "@/type";
+import { SocketIndicator } from "../socket-indicator";
 
 const iconMap = {
   TEXT: <Hash className="5 w-5 mr-2" />,
@@ -17,12 +18,15 @@ interface ChatHeaderProps {
   server: ServerWithChannelsWithMembersWithProfiles;
 }
 
-export const ChatHeader = ({ server, name, type, serverId }: ChatHeaderProps) => {
+export const ChannelHeader = ({ server, name, type, serverId }: ChatHeaderProps) => {
   return (
     <div className="h-12 flex items-center border-b-2 border-neutral-600 px-4 text-neutral-300 font-semibold">
       <MobileToggle serverId={serverId} />
       {iconMap[type]} {name}
-      <ServerSearch server={server} />
+      <div className="ml-auto flex items-center">
+        <SocketIndicator />
+        <ServerSearch server={server} />
+      </div>
     </div>
   );
 };

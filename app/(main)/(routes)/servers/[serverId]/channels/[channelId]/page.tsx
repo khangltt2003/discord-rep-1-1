@@ -1,5 +1,7 @@
-import { ChatHeader } from "@/components/chat/chat-header";
+import { ChannelHeader } from "@/components/channel/channel-header";
+import { ChannelInput } from "@/components/channel/channel-input";
 import { ServerMemberSidebar } from "@/components/servers/server-member-sidebar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
@@ -59,10 +61,14 @@ const ChannelPage = async (props: { params: Promise<{ serverId: string; channelI
   return (
     <div className="bg-white dark:bg-[#00000014] h-full flex flex-col ">
       <div>
-        <ChatHeader server={server} serverId={params.serverId} type={channel.type} name={channel.name} />
+        <ChannelHeader server={server} serverId={params.serverId} type={channel.type} name={channel.name} />
       </div>
       <div className="flex w-full h-full">
-        <div className="w-full ">{channel.name}</div>
+        <div className="flex flex-col w-full p-4 ">
+          <ScrollArea className="flex-1">future message</ScrollArea>
+          <ChannelInput name={channel.name} type="channel" apiUrl="/api/socket/messages" query={{ channelId: channel.id, serverId: server.id }} />
+        </div>
+
         <div className="hidden md:flex flex-col w-64 z-20 bg-[#00000045]  ">
           <ServerMemberSidebar server={server} />
         </div>

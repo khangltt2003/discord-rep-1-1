@@ -1,11 +1,13 @@
-import type { Metadata } from "next";
 import "./globals.css";
+import type { Metadata } from "next";
+
 import { Open_Sans } from "next/font/google";
 import { cn } from "@/lib/utils";
 
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ModalProvider } from "@/components/providers/modal-provider";
+import { SocketProvider } from "@/components/providers/socket-provider";
 
 const font = Open_Sans({ subsets: ["latin"] });
 
@@ -24,8 +26,10 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning={true}>
         <body className={cn(`${font.className}antialiased`, "bg-slate-300 dark:bg-[#25272b]")}>
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} storageKey="discord-theme">
-            <ModalProvider />
-            {children}
+            <SocketProvider>
+              <ModalProvider />
+              {children}
+            </SocketProvider>
           </ThemeProvider>
         </body>
       </html>

@@ -24,8 +24,16 @@ model Profile{
   name String
   imageUrl String @db.Text
   email String @db.Text
+  
   servers Server[]
   members Member[]
+
+  conversationCreated Conversation[] @relation("memberOne")
+  conversationJoined Conversation[] @relation("memberTwo")
+
+  conversationMessages ConversationMessage []
+
+
   channels Channel[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -48,6 +56,7 @@ model Server {
   @@index([profileId])
 }
 
+
 enum MemberRole {
   ADMIN 
   MODERATOR 
@@ -63,6 +72,8 @@ model Member {
 
   serverId String
   server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
+
+  messages Message[]
 
   createdAt DateTime @default(now())
   updateAt DateTime @updatedAt
@@ -88,9 +99,74 @@ model Channel {
   serverId String
   server Server @relation(fields: [serverId], references: [id], onDelete: Cascade)
 
+  messages Message[]  
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([serverId])
+  @@index([profileId])
+}
+
+model Message {
+  id String @id @default(uuid())
+  content String @db.Text
+
+  fileUrl String? @db.Text
+
+  memberId String
+  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+
+  channelId String
+  channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
+
+
+  isDeleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([memberId])
+  @@index([channelId])
+}
+
+model Conversation {
+  id String @id @default(uuid())
+
+  memberOneId String
+  memberOne Profile @relation("memberOne", fields: [memberOneId], references: [id], onDelete: Cascade)
+
+  memberTwoId String
+  memberTwo Profile @relation("memberTwo", fields: [memberTwoId], references: [id], onDelete: Cascade)
+
+  messages ConversationMessage[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([memberOneId])
+  @@index([memberTwoId])
+  @@unique([memberOneId, memberTwoId])
+}
+
+model ConversationMessage {
+  id String @id @default(uuid())
+
+  content String @db.Text
+  fileUrl String? @db.Text
+
+
+  profileId String
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  conversationId String
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete:  Cascade)
+
+  isDeleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([conversationId])
   @@index([profileId])
 }

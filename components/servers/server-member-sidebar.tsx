@@ -1,17 +1,9 @@
 import { currentProfile } from "@/lib/current-profile";
-import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { UserAvatar } from "@/components/user-avatar";
-import { ShieldAlert, ShieldCheck } from "lucide-react";
 import { MemberRole } from "@prisma/client";
 import { ScrollArea } from "../ui/scroll-area";
 import { ServerWithChannelsWithMembersWithProfiles } from "@/type";
-
-const roleIconMap = {
-  ADMIN: <ShieldAlert className="h-5 w-5 text-red-400" />,
-  MODERATOR: <ShieldCheck className="h-5 w-5 text-blue-400" />,
-  GUEST: null,
-};
+import { ServerMemberTab } from "../member-tab";
 
 export const ServerMemberSidebar = async ({ server }: { server: ServerWithChannelsWithMembersWithProfiles }) => {
   const profile = await currentProfile();
@@ -34,13 +26,7 @@ export const ServerMemberSidebar = async ({ server }: { server: ServerWithChanne
         <div className="mb-6">
           <p className="mb-2">Admin</p>
           {admins.map((member) => {
-            return (
-              <div key={member.id} className="flex items-center gap-x-3 mb-2 p-1  rounded-lg hover:text-neutral-300 hover:bg-neutral-700">
-                <UserAvatar src={member.profile.imageUrl} className={"h-1 w-1"} />
-                {member.profile.name}
-                {roleIconMap[member.role]}
-              </div>
-            );
+            return <ServerMemberTab currentProfile={profile} key={member.id} role={member.role} profile={member.profile} />;
           })}
         </div>
       )}
@@ -48,13 +34,7 @@ export const ServerMemberSidebar = async ({ server }: { server: ServerWithChanne
         <div className="mb-6 ">
           <p className="mb-2">Moderator</p>
           {mods.map((member) => {
-            return (
-              <div key={member.id} className="flex items-center gap-x-3 p-1  rounded-lg hover:text-neutral-300 hover:bg-neutral-700">
-                <UserAvatar src={member.profile.imageUrl} />
-                {member.profile.name}
-                {roleIconMap[member.role]}
-              </div>
-            );
+            return <ServerMemberTab currentProfile={profile} key={member.id} role={member.role} profile={member.profile} />;
           })}
         </div>
       )}
@@ -62,13 +42,7 @@ export const ServerMemberSidebar = async ({ server }: { server: ServerWithChanne
         <div>
           <p className="mb-2">Guest</p>
           {guests.map((member) => {
-            return (
-              <div key={member.id} className="flex items-center gap-x-3 mb-2 p-1 rounded-lg hover:text-neutral-300 hover:bg-neutral-700">
-                <UserAvatar src={member.profile.imageUrl} />
-                {member.profile.name}
-                {roleIconMap[member.role]}
-              </div>
-            );
+            return <ServerMemberTab currentProfile={profile} key={member.id} role={member.role} profile={member.profile} />;
           })}
         </div>
       )}

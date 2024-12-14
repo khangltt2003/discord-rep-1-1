@@ -4,14 +4,10 @@ import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 
-const ServerIdlayout = async (
-  props: { children: React.ReactNode; params: Promise<{ serverId: string }> }
-) => {
+const ServerIdlayout = async (props: { children: React.ReactNode; params: Promise<{ serverId: string }> }) => {
   const params = await props.params;
 
-  const {
-    children
-  } = props;
+  const { children } = props;
 
   const profile = await currentProfile();
 

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Input } from "../ui/input";
 import { cn } from "@/lib/utils";
 import { ServerWithChannelsWithMembersWithProfiles } from "@/type";
@@ -34,7 +34,7 @@ export function ServerSearch({ server }: { server: ServerWithChannelsWithMembers
   };
 
   return (
-    <div className={cn("mt-1 ml-auto transition-all duration-300 relative", isOpen ? "w-80" : "w-52")}>
+    <div className={cn("mt-1 transition-all duration-300 relative", isOpen ? "w-80" : "w-52")}>
       <Input
         value={input}
         onChange={(e) => setInput(e.target.value)}

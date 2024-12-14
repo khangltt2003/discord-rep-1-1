@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 import dynamic from "next/dynamic";
+import { useModal } from "@/hooks/use-modal-store";
 
 const FileUpload = dynamic(() => import("@/components/file-upload"), { ssr: false });
 
@@ -25,9 +26,12 @@ const formSchema = z.object({
   }),
 });
 
-export const InitialModal = () => {
-  const [isMounted, setIsMounted] = useState(false);
+export const MessageFileModal = () => {
+  const { isOpen, onClose, data, type } = useModal();
+
   const router = useRouter();
+
+  const isModalOpen = isOpen && type === "messageFile";
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -36,10 +40,6 @@ export const InitialModal = () => {
       imageUrl: "",
     },
   });
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const isLoading = form.formState.isSubmitting;
 
@@ -54,16 +54,11 @@ export const InitialModal = () => {
     }
   };
 
-  if (!isMounted) {
-    return null;
-  }
-
   return (
-    <Dialog open>
+    <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-neutral-600 text-neutral-300 p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
-          <DialogTitle className="text-2xl text-center font-bold">Create your server</DialogTitle>
-          <DialogDescription className="text-center text-zinc-500">Give your server a name and an image.</DialogDescription>
+          <DialogTitle className="text-2xl text-center font-bold">Upload file</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -81,28 +76,10 @@ export const InitialModal = () => {
                   )}
                 />
               </div>
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">Sever Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        disabled={isLoading}
-                        className="bg-zinc-300/50 border-0 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
-                        placeholder="Enter Server Name"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
             </div>
-            <DialogFooter className="bg-gray-100 px-6 py-4">
-              <Button variant="primary" disabled={isLoading}>
-                Create
+            <DialogFooter className="bg-neutral-600 px-6 py-4">
+              <Button className="bg-green-700 hover:bg-green-800 text-white" variant="primary" disabled={isLoading}>
+                Upload
               </Button>
             </DialogFooter>
           </form>
