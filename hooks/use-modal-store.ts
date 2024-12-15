@@ -21,6 +21,8 @@ interface ModalData {
   server?: Server;
   channel?: Channel;
   profile?: Profile;
+  apiUrl? : string
+  query?: Record<string,any>
 }
 
 interface ModalStore {

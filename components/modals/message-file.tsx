@@ -78,7 +78,7 @@ export const MessageFileModal = () => {
               </div>
             </div>
             <DialogFooter className="bg-neutral-600 px-6 py-4">
-              <Button className="bg-green-700 hover:bg-green-800 text-white" variant="primary" disabled={isLoading}>
+              <Button className="bg-emerald-500 hover:bg-emerald-600 text-white" variant="primary" disabled={isLoading}>
                 Upload
               </Button>
             </DialogFooter>

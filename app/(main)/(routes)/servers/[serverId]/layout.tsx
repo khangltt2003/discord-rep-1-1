@@ -1,4 +1,3 @@
-import { ServerMemberSidebar } from "@/components/servers/server-member-sidebar";
 import { ServerSidebar } from "@/components/servers/server-sidebar";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
