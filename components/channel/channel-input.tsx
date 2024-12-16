@@ -11,6 +11,8 @@ import axios from "axios";
 import queryString from "query-string";
 import { useModal } from "@/hooks/use-modal-store";
 import { MessageType } from "@prisma/client";
+import { EmojiPicker } from "../emoji-picker";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   content: z.string().min(1),
@@ -24,6 +26,7 @@ interface ChatInputProps {
 }
 
 export const ChannelInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
+  const router = useRouter();
   const { onOpen } = useModal();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -44,6 +47,7 @@ export const ChannelInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
 
       await axios.post(url, { ...values, type: MessageType.TEXT });
       form.reset();
+      router.refresh();
     } catch (error) {
       console.log(error);
     }
@@ -63,18 +67,23 @@ export const ChannelInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                   <Input
                     disabled={isLoading}
                     autoComplete="off"
-                    className="focus-visible:ring-offset-0 focus-visible:ring-0 bg-neutral-700 pr-10 text-neutral-300"
+                    autoFocus
+                    className="focus-visible:ring-offset-0 focus-visible:ring-0 bg-neutral-700 pr-10 text-neutral-300 text-base"
                     placeholder={`Message ${type === "conversation" ? name : "# " + name}  `}
                     {...field}
                   />
-
-                  <button
-                    type="button"
-                    className="absolute top-[50%] translate-y-[-50%] right-2 bg-neutral-400 rounded-full hover:bg-neutral-300"
-                    onClick={() => onOpen("messageFile", { apiUrl, query })}
-                  >
-                    <Plus className="text-neutral-700  " />
-                  </button>
+                  <div className="absolute top-[50%] translate-y-[-50%] right-2 flex items-center gap-2">
+                    <button type="button">
+                      <EmojiPicker onPick={(emoji) => field.onChange(`${field.value}${emoji}`)} />
+                    </button>
+                    <button
+                      type="button"
+                      className=" bg-neutral-400 rounded-full hover:bg-neutral-300"
+                      onClick={() => onOpen("messageFile", { apiUrl, query })}
+                    >
+                      <Plus className="text-neutral-700 h-6 w-6" />
+                    </button>
+                  </div>
                 </div>
               </FormControl>
             </FormItem>

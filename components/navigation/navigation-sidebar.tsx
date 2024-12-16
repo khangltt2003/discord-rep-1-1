@@ -31,7 +31,7 @@ export const NavigationSidebar = async () => {
   });
 
   return (
-    <div className="space-y-4 flex flex-col items-center h-full text-primary w-full bg-[#909090] dark:bg-[#191919] py-3">
+    <div className="space-y-4 flex flex-col items-center h-full text-primary w-full  py-3 bg-[#909090] dark:bg-[#1b1b1b] border-r-2 border-neutral-800">
       <div>
         <NavigationConversation />
       </div>
@@ -44,13 +44,13 @@ export const NavigationSidebar = async () => {
             </div>
           );
         })}
-        <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto mb-2 " />
       </ScrollArea>
 
       <div className="pb-3 mt-auto flex items-center flex-col gap-y-4">
         {/* <ModeToggle /> */}
-        <NavigationAction />
+        <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto " />
 
+        <NavigationAction />
         <UserButton
           appearance={{
             elements: {

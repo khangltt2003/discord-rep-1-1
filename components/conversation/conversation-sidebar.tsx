@@ -20,7 +20,7 @@ export const ConversationSideBar = async () => {
     },
   });
 
-  console.log(conversations);
+  // console.log(conversations);
   return (
     <div className="h-full w-full ">
       <div
