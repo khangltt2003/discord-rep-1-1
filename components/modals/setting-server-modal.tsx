@@ -21,8 +21,13 @@ const formSchema = z.object({
   name: z.string().min(1, {
     message: "Server name is required.",
   }),
-  imageUrl: z.string().min(1, {
-    message: " Server image is required.",
+  file: z.object({
+    fileUrl: z.string().min(1, {
+      message: "File URL is required.",
+    }),
+    type: z.string().min(1, {
+      message: "File type is required.",
+    }),
   }),
 });
 
@@ -40,7 +45,10 @@ export const SettingServerModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      imageUrl: "",
+      file: {
+        fileUrl: "",
+        type: "",
+      },
     },
   });
 
@@ -51,7 +59,7 @@ export const SettingServerModal = () => {
   useEffect(() => {
     if (server) {
       form.setValue("name", server.name);
-      form.setValue("imageUrl", server.imageUrl);
+      form.setValue("file", { fileUrl: server.imageUrl, type: "png" });
     }
   }, [server, form]);
 
@@ -59,7 +67,7 @@ export const SettingServerModal = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/servers/${server?.id}`, values);
+      await axios.patch(`/api/servers/${server?.id}`, { name: values.name, imageUrl: values.file.fileUrl });
       form.reset();
       router.refresh();
       onClose();
@@ -90,12 +98,13 @@ export const SettingServerModal = () => {
               <div className="flex items-center justify-center text-center">
                 <FormField
                   control={form.control}
-                  name="imageUrl"
+                  name="file"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <FileUpload endpoint="serverImage" value={field.value} onChange={field.onChange} />
+                        <FileUpload endpoint="serverImage" fileUrl={field.value.fileUrl} type={field.value.type} onChange={field.onChange} />
                       </FormControl>
+                      <FormMessage className="text-red-400" />
                     </FormItem>
                   )}
                 />
@@ -114,7 +123,7 @@ export const SettingServerModal = () => {
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-400" />
                   </FormItem>
                 )}
               />

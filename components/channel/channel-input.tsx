@@ -10,6 +10,7 @@ import { Plus } from "lucide-react";
 import axios from "axios";
 import queryString from "query-string";
 import { useModal } from "@/hooks/use-modal-store";
+import { MessageType } from "@prisma/client";
 
 const formSchema = z.object({
   content: z.string().min(1),
@@ -41,7 +42,8 @@ export const ChannelInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
         query,
       });
 
-      await axios.post(url, values);
+      await axios.post(url, { ...values, type: MessageType.TEXT });
+      form.reset();
     } catch (error) {
       console.log(error);
     }
@@ -69,7 +71,7 @@ export const ChannelInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                   <button
                     type="button"
                     className="absolute top-[50%] translate-y-[-50%] right-2 bg-neutral-400 rounded-full hover:bg-neutral-300"
-                    onClick={() => onOpen("messageFile", {})}
+                    onClick={() => onOpen("messageFile", { apiUrl, query })}
                   >
                     <Plus className="text-neutral-700  " />
                   </button>

@@ -1,16 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import { ActionToolTip } from "@/components/action-tooltip";
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
-import { MessageSquare } from "lucide-react";
-
-interface NavigationItemProps {
-  id: string;
-  imageUrl: string;
-  name: string;
-}
+import { LucideMessageSquareText, MessageSquare } from "lucide-react";
 
 const NavigationConversation = () => {
   const router = useRouter();
@@ -34,11 +27,11 @@ const NavigationConversation = () => {
         />
         <div
           className={cn(
-            "relative group flex items-center justify-center mx-3 h-[48px] w-[48px]  rounded-[24px] bg-neutral-700 hover:bg-indigo-500 group-hover:rounded-[16px] transition-all overflow-hidden",
+            "group flex items-center justify-center mx-3 h-[48px] w-[48px]  rounded-[24px] bg-neutral-700 hover:bg-indigo-500 group-hover:rounded-[16px] transition-all overflow-hidden",
             isConversationsRoute && "bg-indigo-500 text-primary rounded-[16px]"
           )}
         >
-          <MessageSquare className="z-50" />
+          {isConversationsRoute ? <LucideMessageSquareText className="z-50" /> : <MessageSquare className="z-50" />}
         </div>
       </button>
     </ActionToolTip>

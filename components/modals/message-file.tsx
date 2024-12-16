@@ -1,28 +1,30 @@
 "use client";
-import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 
-import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogHeader, DialogFooter } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Dialog, DialogContent, DialogTitle, DialogHeader, DialogFooter } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 
 import dynamic from "next/dynamic";
 import { useModal } from "@/hooks/use-modal-store";
+import queryString from "query-string";
+import { MessageType } from "@prisma/client";
 
 const FileUpload = dynamic(() => import("@/components/file-upload"), { ssr: false });
 
 const formSchema = z.object({
-  name: z.string().min(1, {
-    message: "Server name is required.",
-  }),
-  imageUrl: z.string().min(1, {
-    message: " Server image is required.",
+  file: z.object({
+    fileUrl: z.string().min(1, {
+      message: "File URL is required.",
+    }),
+    type: z.string().min(1, {
+      message: "File type is required.",
+    }),
   }),
 });
 
@@ -36,26 +38,44 @@ export const MessageFileModal = () => {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      imageUrl: "",
+      file: {
+        fileUrl: "",
+        type: "",
+      },
     },
   });
 
   const isLoading = form.formState.isSubmitting;
 
+  const { apiUrl, query } = data;
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post("/api/servers", values);
+      const url = queryString.stringifyUrl({
+        url: apiUrl || "",
+        query: query,
+      });
+      await axios.post(url, {
+        ...values,
+        content: values.file.fileUrl,
+        fileUrl: values.file.fileUrl,
+        type: values.file.type === "pdf" ? MessageType.PDF : MessageType.IMAGE,
+      });
       form.reset();
       router.refresh();
-      window.location.reload();
+      onClose();
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleClose = () => {
+    form.reset();
+    onClose();
+  };
+
   return (
-    <Dialog open={isModalOpen} onOpenChange={onClose}>
+    <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-neutral-600 text-neutral-300 p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">Upload file</DialogTitle>
@@ -66,12 +86,13 @@ export const MessageFileModal = () => {
               <div className="flex items-center justify-center text-center">
                 <FormField
                   control={form.control}
-                  name="imageUrl"
+                  name="file"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <FileUpload endpoint="serverImage" value={field.value} onChange={field.onChange} />
+                        <FileUpload endpoint="messageFile" fileUrl={field.value.fileUrl} type={field.value.type} onChange={field.onChange} />
                       </FormControl>
+                      <FormMessage className="text-red-400" />
                     </FormItem>
                   )}
                 />

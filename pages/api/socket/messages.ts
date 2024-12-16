@@ -1,6 +1,7 @@
 import { currentProfilePages } from "@/lib/current-profile-pages ";
 import { db } from "@/lib/db";
 import { NextApiResponseServerIo } from "@/type";
+import { MessageType } from "@prisma/client";
 import { NextApiRequest } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponseServerIo) {
@@ -10,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
 
   try {
     const profile = await currentProfilePages(req);
-    const { content, fileUrl } = req.body;
+    const { content, fileUrl, type } = req.body;
     const { serverId, channelId } = req.query;
 
     if (!profile) {
@@ -67,6 +68,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
       data: {
         content: content,
         fileUrl: fileUrl,
+        type: type,
         channelId: channelId as string,
         memberId: member.id,
       },

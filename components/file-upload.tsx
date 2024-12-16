@@ -1,26 +1,43 @@
 "use client";
 
 import { UploadDropzone } from "@/lib/uploadthing";
-import { X } from "lucide-react";
+import { FileText, X } from "lucide-react";
 import Image from "next/image";
 
 interface FileUploadProps {
-  onChange: (url?: string) => void;
-  value: string;
+  onChange: ({ fileUrl, type }: { fileUrl: string; type: string }) => void;
+  fileUrl: string;
   endpoint: "messageFile" | "serverImage";
+  type: string;
 }
 
-const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
-  const fileType = value?.split(".").pop();
-
-  if (value && fileType !== "pdf") {
+const FileUpload = ({ onChange, fileUrl, type, endpoint }: FileUploadProps) => {
+  if (fileUrl && type !== "pdf") {
     return (
       <div className="relative h-20 w-20">
-        <Image fill src={value} alt="Upload" className="rounded-full" />
+        <Image fill src={fileUrl} alt="Upload" className="rounded-full" />
         <button
           className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
           onClick={() => {
-            onChange("");
+            onChange({ fileUrl: "", type: "" });
+          }}
+        >
+          <X className="h-4 w-4" />
+        </button>
+      </div>
+    );
+  }
+
+  if (fileUrl && type === "pdf") {
+    return (
+      <div className="relative h-16 w-16 rounded-full">
+        <a href={fileUrl} target="_blank" rel="noopener noreferrer">
+          <FileText className="h-full w-full hover:text-indigo-300" />
+        </a>
+        <button
+          className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
+          onClick={() => {
+            onChange({ fileUrl: "", type: "" });
           }}
         >
           <X className="h-4 w-4" />
@@ -34,10 +51,11 @@ const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
       className="text-white bg-white"
       endpoint={endpoint}
       onClientUploadComplete={(res) => {
-        onChange(res?.[0].url);
+        console.log("uploaded successfully:", res);
+        onChange({ fileUrl: res?.[0].url, type: res?.[0].type.split("/")[1] });
       }}
       onUploadError={(error: Error) => {
-        console.log(error);
+        console.log("uploadthing error", error);
       }}
     />
   );

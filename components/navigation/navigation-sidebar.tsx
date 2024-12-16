@@ -25,15 +25,18 @@ export const NavigationSidebar = async () => {
         },
       },
     },
+    orderBy: {
+      createdAt: "asc",
+    },
   });
 
   return (
     <div className="space-y-4 flex flex-col items-center h-full text-primary w-full bg-[#909090] dark:bg-[#191919] py-3">
+      <div>
+        <NavigationConversation />
+      </div>
+      <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto " />
       <ScrollArea className="w-full h-[90%]">
-        <div className="mb-2">
-          <NavigationConversation />
-        </div>
-        <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto mb-2 " />
         {servers.map((server) => {
           return (
             <div key={server.id} className="mb-2">
@@ -42,11 +45,12 @@ export const NavigationSidebar = async () => {
           );
         })}
         <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-10 mx-auto mb-2 " />
-        <NavigationAction />
       </ScrollArea>
 
       <div className="pb-3 mt-auto flex items-center flex-col gap-y-4">
         {/* <ModeToggle /> */}
+        <NavigationAction />
+
         <UserButton
           appearance={{
             elements: {

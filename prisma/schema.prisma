@@ -108,11 +108,18 @@ model Channel {
   @@index([profileId])
 }
 
+enum MessageType {
+  TEXT
+  IMAGE
+  PDF
+}
+
 model Message {
   id String @id @default(uuid())
   content String @db.Text
 
   fileUrl String? @db.Text
+  type MessageType @default(TEXT)
 
   memberId String
   member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)

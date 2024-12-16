@@ -15,11 +15,17 @@ export const ourFileRouter = {
   // Define as many FileRoutes as you like, each with a unique routeSlug
   serverImage: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
     .middleware(() => handleAuth())
-    .onUploadComplete(() => {}),
+    .onUploadComplete(async ({ file }) => {
+      console.log("uploaded file:", file);
+      return { url: file.url };
+    }),
 
   messageFile: f(["image", "pdf"])
     .middleware(() => handleAuth())
-    .onUploadComplete(() => {}),
+    .onUploadComplete(async ({ file }) => {
+      console.log("uploaded file:", file);
+      return { url: file.url };
+    }),
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

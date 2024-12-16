@@ -12,17 +12,19 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
 import { useEffect, useState } from "react";
-
-import dynamic from "next/dynamic";
-
-const FileUpload = dynamic(() => import("@/components/file-upload"), { ssr: false });
+import FileUpload from "../file-upload";
 
 const formSchema = z.object({
   name: z.string().min(1, {
     message: "Server name is required.",
   }),
-  imageUrl: z.string().min(1, {
-    message: " Server image is required.",
+  file: z.object({
+    fileUrl: z.string().min(1, {
+      message: "File URL is required.",
+    }),
+    type: z.string().min(1, {
+      message: "File type is required.",
+    }),
   }),
 });
 
@@ -37,7 +39,10 @@ export const CreateServerModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      imageUrl: "",
+      file: {
+        fileUrl: "",
+        type: "",
+      },
     },
   });
 
@@ -47,9 +52,9 @@ export const CreateServerModal = () => {
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post("/api/servers", values);
+      await axios.post("/api/servers", { name: values.name, imageUrl: values.file.fileUrl });
       form.reset();
       router.refresh();
       onClose();
@@ -75,17 +80,18 @@ export const CreateServerModal = () => {
           <DialogDescription className="text-center text-zinc-500">Give your server a name and an image.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 font-semibold">
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8 font-semibold">
             <div className="spae-y-8 px-6">
               <div className="flex items-center justify-center text-center">
                 <FormField
                   control={form.control}
-                  name="imageUrl"
+                  name="file"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <FileUpload endpoint="serverImage" value={field.value} onChange={field.onChange} />
+                        <FileUpload endpoint="serverImage" fileUrl={field.value.fileUrl} type={field.value.type} onChange={field.onChange} />
                       </FormControl>
+                      <FormMessage className="text-red-400" />
                     </FormItem>
                   )}
                 />
@@ -104,7 +110,7 @@ export const CreateServerModal = () => {
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-red-400" />
                   </FormItem>
                 )}
               />

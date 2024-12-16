@@ -25,6 +25,9 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       path: "/api/socket/io",
       addTrailingSlash: false,
     });
+
+    setSocket(socketInstance);
+
     socketInstance.on("connect", () => {
       setIsConnected(true);
     });
@@ -33,7 +36,6 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       setIsConnected(false);
     });
 
-    setSocket(socketInstance);
     return () => {
       socketInstance.disconnect();
     };

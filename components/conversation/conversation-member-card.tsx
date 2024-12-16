@@ -39,7 +39,7 @@ const ProfileCard = ({ memberTwo }: { memberTwo: Profile }) => {
       <div className="flex flex-col  items-start px-3 text-neutral-300">
         <h1 className="text-xl font-semibold leading-6 mb-1">{memberTwo.name}</h1>
         <p className="text-sm mb-5">{memberTwo.email}</p>
-        <div className="bg-neutral-700 h-20 w-full rounded-xl p-3">
+        <div className="bg-neutral-700 h-16 w-full rounded-xl p-2">
           <p className="text-sm font-medium leading-6 mb-1">Member Since</p>
           <p className="text-base">{createdDate}</p>
         </div>
