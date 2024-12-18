@@ -73,9 +73,8 @@ export const ChannelInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                     {...field}
                   />
                   <div className="absolute top-[50%] translate-y-[-50%] right-2 flex items-center gap-2">
-                    <button type="button">
-                      <EmojiPicker onPick={(emoji) => field.onChange(`${field.value}${emoji}`)} />
-                    </button>
+                    <EmojiPicker onPick={(emoji) => field.onChange(`${field.value}${emoji}`)} />
+
                     <button
                       type="button"
                       className=" bg-neutral-400 rounded-full hover:bg-neutral-300"
