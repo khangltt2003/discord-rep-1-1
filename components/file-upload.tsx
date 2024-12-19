@@ -5,13 +5,14 @@ import { FileText, X } from "lucide-react";
 import Image from "next/image";
 
 interface FileUploadProps {
-  onChange: ({ fileUrl, type }: { fileUrl: string; type: string }) => void;
+  onChange: ({ content, fileUrl, type }: { content: string; fileUrl: string; type: string }) => void;
+  content: string;
   fileUrl: string;
   endpoint: "messageFile" | "serverImage";
   type: string;
 }
 
-const FileUpload = ({ onChange, fileUrl, type, endpoint }: FileUploadProps) => {
+const FileUpload = ({ onChange, content, fileUrl, type, endpoint }: FileUploadProps) => {
   if (fileUrl && type !== "pdf") {
     return (
       <div className="relative h-20 w-20">
@@ -19,7 +20,7 @@ const FileUpload = ({ onChange, fileUrl, type, endpoint }: FileUploadProps) => {
         <button
           className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
           onClick={() => {
-            onChange({ fileUrl: "", type: "" });
+            onChange({ content: "", fileUrl: "", type: "" });
           }}
         >
           <X className="h-4 w-4" />
@@ -37,7 +38,7 @@ const FileUpload = ({ onChange, fileUrl, type, endpoint }: FileUploadProps) => {
         <button
           className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
           onClick={() => {
-            onChange({ fileUrl: "", type: "" });
+            onChange({ content: "", fileUrl: "", type: "" });
           }}
         >
           <X className="h-4 w-4" />
@@ -52,7 +53,7 @@ const FileUpload = ({ onChange, fileUrl, type, endpoint }: FileUploadProps) => {
       endpoint={endpoint}
       onClientUploadComplete={(res) => {
         console.log("uploaded successfully:", res);
-        onChange({ fileUrl: res?.[0].url, type: res?.[0].type.split("/")[1] });
+        onChange({ content: res?.[0].name, fileUrl: res?.[0].url, type: res?.[0].type.split("/")[1] });
       }}
       onUploadError={(error: Error) => {
         console.log("uploadthing error", error);

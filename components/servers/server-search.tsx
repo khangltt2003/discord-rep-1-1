@@ -44,7 +44,7 @@ export function ServerSearch({ server }: { server: ServerWithChannelsWithMembers
         placeholder="Search"
       />
       {isOpen && (
-        <div className="absolute top-10 left-3 bg-[#161616] w-80 h-96 z-30 rounded-xl p-3 font-normal ">
+        <div className="absolute top-10 left-3 bg-[#161616] w-80 h-96  rounded-xl p-3 font-normal z-50">
           <ScrollArea className="h-full">
             {filteredTextChannel.length > 0 && (
               <div className="mb-5">

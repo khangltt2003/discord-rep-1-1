@@ -67,6 +67,7 @@ const ChannelPage = async (props: { params: Promise<{ serverId: string; channelI
       <div className=" w-full h-full flex-1 flex border overflow-y-auto">
         <div className=" h-full w-full flex flex-col ">
           <ChannelMessages
+            currentMember={member}
             name={channel.name}
             member={member}
             chatId={channel.id}

@@ -1,6 +1,6 @@
 "use client";
 
-import { Member } from "@prisma/client";
+import { Member, Profile } from "@prisma/client";
 import { Hash, Loader, MessageCircle, ServerCrash } from "lucide-react";
 import { useChatQuery } from "@/hooks/use-chat-query";
 import { Fragment } from "react";
@@ -8,6 +8,7 @@ import { MessageWithMemberProfile } from "@/type";
 import { ChatItem } from "../chat-item";
 
 interface ChatMessagesProps {
+  currentMember: Member;
   name: string;
   member: Member;
   chatId: string;
@@ -19,7 +20,18 @@ interface ChatMessagesProps {
   type: "channel" | "conversation";
 }
 
-export const ChannelMessages = ({ name, member, chatId, apiUrl, socketUrl, socketQuery, paramKey, paramValue, type }: ChatMessagesProps) => {
+export const ChannelMessages = ({
+  currentMember,
+  name,
+  member,
+  chatId,
+  apiUrl,
+  socketUrl,
+  socketQuery,
+  paramKey,
+  paramValue,
+  type,
+}: ChatMessagesProps) => {
   const queryKey = `chat:${chatId}`;
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, status } = useChatQuery({ queryKey, apiUrl, paramKey, paramValue });
@@ -60,7 +72,7 @@ export const ChannelMessages = ({ name, member, chatId, apiUrl, socketUrl, socke
             return (
               <Fragment key={i}>
                 {page.messages.map((message: MessageWithMemberProfile) => {
-                  return <ChatItem key={message.id} message={message} />;
+                  return <ChatItem key={message.id} currentMember={currentMember} message={message} />;
                 })}
               </Fragment>
             );

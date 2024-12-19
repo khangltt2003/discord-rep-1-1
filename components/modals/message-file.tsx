@@ -19,12 +19,9 @@ const FileUpload = dynamic(() => import("@/components/file-upload"), { ssr: fals
 
 const formSchema = z.object({
   file: z.object({
-    fileUrl: z.string().min(1, {
-      message: "File URL is required.",
-    }),
-    type: z.string().min(1, {
-      message: "File type is required.",
-    }),
+    content: z.string().min(1),
+    fileUrl: z.string().min(1),
+    type: z.string().min(1),
   }),
 });
 
@@ -39,6 +36,7 @@ export const MessageFileModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       file: {
+        content: "",
         fileUrl: "",
         type: "",
       },
@@ -57,7 +55,7 @@ export const MessageFileModal = () => {
       });
       await axios.post(url, {
         ...values,
-        content: values.file.fileUrl,
+        content: values.file.content,
         fileUrl: values.file.fileUrl,
         type: values.file.type === "pdf" ? MessageType.PDF : MessageType.IMAGE,
       });
@@ -90,7 +88,13 @@ export const MessageFileModal = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <FileUpload endpoint="messageFile" fileUrl={field.value.fileUrl} type={field.value.type} onChange={field.onChange} />
+                        <FileUpload
+                          endpoint="messageFile"
+                          content={field.value.content}
+                          fileUrl={field.value.fileUrl}
+                          type={field.value.type}
+                          onChange={field.onChange}
+                        />
                       </FormControl>
                       <FormMessage className="text-red-400" />
                     </FormItem>
