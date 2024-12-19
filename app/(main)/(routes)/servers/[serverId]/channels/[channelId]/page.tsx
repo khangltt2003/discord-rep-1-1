@@ -2,7 +2,6 @@ import { ChannelHeader } from "@/components/channel/channel-header";
 import { ChannelInput } from "@/components/channel/channel-input";
 import { ChannelMessages } from "@/components/channel/channel-messages";
 import { ServerMemberSidebar } from "@/components/servers/server-member-sidebar";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
@@ -60,12 +59,13 @@ const ChannelPage = async (props: { params: Promise<{ serverId: string; channelI
   }
 
   return (
-    <div className="bg-white dark:bg-[#00000014] h-full flex flex-col ">
-      <div>
+    <div className="h-full  bg-white dark:bg-[#00000014] flex flex-col ">
+      <div className="h-12">
         <ChannelHeader server={server} serverId={params.serverId} type={channel.type} name={channel.name} />
       </div>
-      <div className="flex w-full h-full">
-        <div className="flex flex-col w-full ">
+
+      <div className=" w-full h-full flex-1 flex border overflow-y-auto">
+        <div className=" h-full w-full flex flex-col ">
           <ChannelMessages
             name={channel.name}
             member={member}
@@ -77,13 +77,12 @@ const ChannelPage = async (props: { params: Promise<{ serverId: string; channelI
             paramValue={channel.id}
             type="channel"
           />
-
-          <div className="p-4 ">
+          <div className="px-4 py-3">
             <ChannelInput name={channel.name} type="channel" apiUrl="/api/socket/messages" query={{ channelId: channel.id, serverId: server.id }} />
           </div>
         </div>
 
-        <div className="hidden md:flex flex-col w-64 z-20 bg-[#00000045]  ">
+        <div className=" hidden md:flex flex-col w-64 z-20 bg-[#00000045]  ">
           <ServerMemberSidebar server={server} />
         </div>
       </div>

@@ -1,10 +1,11 @@
 "use client";
 
 import { Member } from "@prisma/client";
-import { ChatWelcome } from "../chat-welcome";
-import { Hash, Loader, MessageCircle, MessagesSquare, ServerCrash } from "lucide-react";
+import { Hash, Loader, MessageCircle, ServerCrash } from "lucide-react";
 import { useChatQuery } from "@/hooks/use-chat-query";
-import { Message } from "postcss";
+import { Fragment } from "react";
+import { MessageWithMemberProfile } from "@/type";
+import { ChatItem } from "../chat-item";
 
 interface ChatMessagesProps {
   name: string;
@@ -39,26 +40,29 @@ export const ChannelMessages = ({ name, member, chatId, apiUrl, socketUrl, socke
       </div>
     );
   }
-  const messages: Message[] = data ? data.pages[0].messages : [];
 
   return (
-    <div className="flex-1 flex flex-col overflow-y-auto border  p-4">
+    <div className="flex-1 flex flex-col overflow-y-auto pt-4  px-2">
       <div className="flex-1" />
       <div>
-        <div className="h-14 w-14 rounded-full bg-neutral-700 flex items-center justify-center mb-4">
-          {type === "channel" && <Hash className="text-neutral-300 h-10 w-10" />}
-          {type === "conversation" && <MessageCircle className=" text-neutral-300 h-10 w-10" />}
+        <div className="p-2">
+          <div className="h-16 w-16 rounded-full bg-neutral-700 flex items-center justify-center mb-4">
+            {type === "channel" && <Hash className="text-neutral-300 h-10 w-10" />}
+            {type === "conversation" && <MessageCircle className=" text-neutral-300 h-10 w-10" />}
+          </div>
+          <p className="text-3xl font-bold text-neutral-300 mb-10">
+            {type === "channel" ? "Welcome to # " + name : "Now both of you can talk whatever you want."}
+          </p>
         </div>
-        <p className="text-2xl font-bold text-neutral-300">
-          {type === "channel" ? "Welcome to #" + name : "Now both of you can talk whatever you want."}
-        </p>
 
-        <div className="flex flex-col-reverse ">
-          {messages.map((message) => {
+        <div className="flex flex-col-reverse">
+          {data?.pages.map((page, i) => {
             return (
-              <div key={message.id} className="w-full mt-1 hover:bg-slate-400 ">
-                {message.content}
-              </div>
+              <Fragment key={i}>
+                {page.messages.map((message: MessageWithMemberProfile) => {
+                  return <ChatItem key={message.id} message={message} />;
+                })}
+              </Fragment>
             );
           })}
         </div>

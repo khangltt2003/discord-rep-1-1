@@ -3,7 +3,7 @@ import { db } from "@/lib/db";
 import { Message } from "@prisma/client";
 import { NextResponse } from "next/server";
 
-const MESSAGE_BATCH = 20;
+const MESSAGE_BATCH = 15;
 
 export async function GET(req: Request) {
   try {
