@@ -1,15 +1,8 @@
 "use client";
+import { cn } from "@/lib/utils";
 import { Profile } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { UserAvatar } from "../user-avatar";
-
-const tailwindColors = [
-  "red-500",
-  "blue-500",
-  "emerald-500",
-  "yellow-500",
-  "indigo-500",
-];
 
 const formatDate = (inputDate: Date): string => {
   const options: Intl.DateTimeFormatOptions = {
@@ -21,24 +14,21 @@ const formatDate = (inputDate: Date): string => {
   return inputDate.toLocaleDateString("en-US", options);
 };
 
-const getRandomTailwindColor = () => {
-  const randomIndex = Math.floor(Math.random() * tailwindColors.length);
-  return `bg-${tailwindColors[randomIndex]}`;
-};
-
 const ProfileCard = ({ memberTwo }: { memberTwo: Profile }) => {
-  const [color, setColor] = useState("bg-blue-500");
   const [createdDate, setCreatedDate] = useState("");
 
   useEffect(() => {
-    setColor(getRandomTailwindColor());
-
     setCreatedDate(formatDate(memberTwo.createdAt));
   }, [memberTwo]);
 
   return (
     <div className="w-full h-full  rounded-lg text-white ">
-      <div className={`h-36 w-full ${color} relative mb-10`}>
+      <div
+        className={cn(
+          `h-36 w-full  relative mb-10`,
+          memberTwo && memberTwo.wallpaper,
+        )}
+      >
         <UserAvatar
           src={memberTwo.imageUrl}
           className="abolute left-6 top-[100%] translate-y-[-50%]  md:h-16 md:w-16 ring-[6px] ring-[#1c1c1c]"

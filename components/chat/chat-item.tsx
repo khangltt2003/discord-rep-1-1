@@ -62,6 +62,7 @@ export const ChatItem = ({
     updatedAt,
   } = message;
   const { name, imageUrl } = member.profile;
+
   const timestamp = format(new Date(createdAt), "hh:mm a");
 
   const isAdmin = currentMember.role === MemberRole.ADMIN;
@@ -124,7 +125,7 @@ export const ChatItem = ({
     }
   };
   return (
-    <div className="flex items-start  gap-x-2 p-2 hover:bg-[#58585f4d]  rounded-xl group relative">
+    <div className="flex items-start gap-x-3 p-2 hover:bg-[#58585f4d]  rounded-xl group relative">
       {/* edit and delete */}
       {!isDeleted && (
         <div className="hidden group-hover:flex  gap-1 absolute top-[-10px] right-3  z-30 bg-[#424549] rounded-lg p-2">
@@ -147,8 +148,13 @@ export const ChatItem = ({
 
       <UserAvatar src={imageUrl} className="md:h-10 md:w-10" />
       <div className="flex flex-col w-full">
-        <div className="flex items-center space-x-2 mb-1">
-          <span className="font-semibold group text-neutral-300 group-hover:text-neutral-200">
+        <div className="flex items-center space-x-2">
+          <span
+            className="font-semibold group text-neutral-300 group-hover:text-neutral-200 hover:underline cursor-pointer"
+            onClick={() =>
+              onOpen("createConversation", { profile: member.profile })
+            }
+          >
             {name}
           </span>
           {roleIconMap[member.role]}

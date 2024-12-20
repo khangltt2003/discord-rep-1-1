@@ -15,11 +15,11 @@ export async function POST(req: Request) {
       return new NextResponse("no memeber two id", { status: 400 });
     }
 
-    if (profile.id === memberTwoId) {
-      return new NextResponse("cannot create conversation with yourself", {
-        status: 400,
-      });
-    }
+    // if (profile.id === memberTwoId) {
+    //   return new NextResponse("cannot create conversation with yourself", {
+    //     status: 400,
+    //   });
+    // }
 
     const conversation = await db.conversation.findFirst({
       where: {
@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     });
 
     if (conversation) {
-      return NextResponse.json(conversation);
+      return NextResponse.json({ conversation: conversation });
     }
 
     const newConversation = await db.conversation.create({
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
         memberTwoId: memberTwoId,
       },
     });
-    return NextResponse.json(newConversation);
+    return NextResponse.json({ conversation: newConversation });
   } catch (error) {
     console.log(error);
     return new NextResponse("internal server error", { status: 500 });

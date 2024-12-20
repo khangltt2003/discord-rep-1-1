@@ -18,12 +18,7 @@ interface ChatHeaderProps {
   server: ServerWithChannelsWithMembersWithProfiles;
 }
 
-export const ChannelHeader = ({
-  server,
-  name,
-  type,
-  serverId,
-}: ChatHeaderProps) => {
+export const ChannelHeader = ({ server, name, type, serverId }: ChatHeaderProps) => {
   return (
     <div className="h-12 flex items-center border-b-2 border-neutral-600 px-4 text-neutral-300 font-semibold">
       <MobileToggle serverId={serverId} />

@@ -10,7 +10,6 @@ import { ChatItem } from "./chat-item";
 interface ChatMessagesProps {
   currentMember: Member;
   name: string;
-  member: Member;
   chatId: string;
   apiUrl: string;
   socketUrl: string;
@@ -23,7 +22,6 @@ interface ChatMessagesProps {
 export const ChannelMessages = ({
   currentMember,
   name,
-  member,
   chatId,
   apiUrl,
   socketUrl,
@@ -74,7 +72,7 @@ export const ChannelMessages = ({
           </p>
         </div>
 
-        <div className="flex flex-col-reverse">
+        <div className="flex flex-col-reverse gap-2">
           {data?.pages.map((page, i) => {
             return (
               <Fragment key={i}>

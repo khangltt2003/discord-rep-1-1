@@ -2,7 +2,6 @@ import { ConversationHeader } from "@/components/conversation/conversation-heade
 import ProfileCard from "@/components/conversation/conversation-member-card";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { redirect } from "next/navigation";
 
 const ConversationPage = async (props: {
@@ -47,10 +46,7 @@ const ConversationPage = async (props: {
         <ConversationHeader memberTwo={memberTwo} />
       </div>
       <div className="flex w-full h-full">
-        <div className="flex flex-col w-full p-4 ">
-          <ScrollArea className="flex-1">future message</ScrollArea>
-          {/* <ChannelInput name={channel.name} type="channel" apiUrl="/api/socket/messages" query={{ channelId: channel.id, serverId: server.id }} /> */}
-        </div>
+        <div className="flex flex-col w-full p-4 "></div>
 
         <div className="hidden md:flex flex-col w-96 z-20 bg-[#00000045]  ">
           <ProfileCard memberTwo={memberTwo} />

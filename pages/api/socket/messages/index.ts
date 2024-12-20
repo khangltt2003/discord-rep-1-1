@@ -85,7 +85,7 @@ export default async function handler(
       },
     });
 
-    const channelKey = `channel-${channelId}-messages`;
+    const channelKey = `channel-${channelId}-new-messages`;
 
     res?.socket?.server?.io?.emit(channelKey, message);
 

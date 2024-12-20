@@ -25,12 +25,7 @@ interface ChatInputProps {
   type: "conversation" | "channel";
 }
 
-export const ChannelInput = ({
-  socketUrl,
-  socketQuery,
-  name,
-  type,
-}: ChatInputProps) => {
+export const ChannelInput = ({ socketUrl, socketQuery, name, type }: ChatInputProps) => {
   const router = useRouter();
   const { onOpen } = useModal();
 
@@ -78,11 +73,7 @@ export const ChannelInput = ({
                     {...field}
                   />
                   <div className="absolute top-[50%] translate-y-[-50%] right-2 flex items-center gap-2">
-                    <EmojiPicker
-                      onPick={(emoji) =>
-                        field.onChange(`${field.value}${emoji}`)
-                      }
-                    />
+                    <EmojiPicker onPick={(emoji) => field.onChange(`${field.value}${emoji}`)} />
 
                     <button
                       type="button"

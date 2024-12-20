@@ -49,14 +49,14 @@ const ChannelPage = async (props: {
     },
   });
 
-  const member = await db.member.findFirst({
+  const currentMember = await db.member.findFirst({
     where: {
       profileId: profile.id,
       serverId: params.serverId,
     },
   });
 
-  if (!server || !channel || !member) {
+  if (!server || !channel || !currentMember) {
     return redirect("/");
   }
 
@@ -74,9 +74,8 @@ const ChannelPage = async (props: {
       <div className=" w-full h-full flex-1 flex border overflow-y-auto">
         <div className=" h-full w-full flex flex-col ">
           <ChannelMessages
-            currentMember={member}
+            currentMember={currentMember}
             name={channel.name}
-            member={member}
             chatId={channel.id}
             apiUrl="/api/messages"
             socketUrl="/api/socket/messages"

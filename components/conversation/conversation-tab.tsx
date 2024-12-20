@@ -31,7 +31,7 @@ export const ConversationTab = ({
   return (
     <div
       className={cn(
-        "flex items-center gap-x-3 mb-2 p-1  rounded-lg  text-neutral-400 hover:text-neutral-300 hover:bg-neutral-700 font-semibold",
+        "flex items-center gap-x-3 mb-2 p-1  rounded-lg  text-neutral-400 hover:text-neutral-300 hover:bg-neutral-700 font-semibold cursor-pointer",
         conversationId === conversation.id &&
           " bg-neutral-700 text-neutral-300",
       )}

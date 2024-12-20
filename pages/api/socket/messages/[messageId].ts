@@ -9,7 +9,7 @@ export default async function handler(
   res: NextApiResponseServerIo,
 ) {
   if (req.method !== "PATCH" && req.method !== "DELETE") {
-    return res.status(400).json({ error: "method not allowed" });
+    return res.status(405).json({ error: "method not allowed" });
   }
 
   try {

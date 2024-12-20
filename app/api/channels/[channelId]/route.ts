@@ -3,10 +3,7 @@ import { db } from "@/lib/db";
 import { MemberRole } from "@prisma/client";
 import { NextResponse } from "next/server";
 
-export async function PATCH(
-  req: Request,
-  props: { params: Promise<{ channelId: string }> },
-) {
+export async function PATCH(req: Request, props: { params: Promise<{ channelId: string }> }) {
   const params = await props.params;
   try {
     const profile = await currentProfile();
@@ -60,10 +57,7 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-  req: Request,
-  props: { params: Promise<{ channelId: string }> },
-) {
+export async function DELETE(req: Request, props: { params: Promise<{ channelId: string }> }) {
   try {
     const params = await props.params;
 

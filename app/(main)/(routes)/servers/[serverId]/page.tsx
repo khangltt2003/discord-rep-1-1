@@ -34,9 +34,7 @@ const serverpage = async (props: { params: Promise<{ serverId: string }> }) => {
   const genneralChannel = server?.channels[0];
 
   if (genneralChannel?.name === "general") {
-    return redirect(
-      `/servers/${params.serverId}/channels/${genneralChannel.id}`,
-    );
+    return redirect(`/servers/${params.serverId}/channels/${genneralChannel.id}`);
   }
 
   return null;

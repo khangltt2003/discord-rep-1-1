@@ -43,3 +43,5 @@ export type ConversationWithMemberProfile = Conversation & {
 } & {
   memberTwo: Profile;
 };
+
+export type MemberWithProfile = Member & { profile: Profile };

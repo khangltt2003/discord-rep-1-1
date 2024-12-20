@@ -63,7 +63,7 @@ export const DeleteMessageModal = () => {
         </DialogHeader>
         <div className="px-6">
           Are you sure you want to delete{" "}
-          <span className="italic">{message?.content}</span>?
+          <span className="italic">&apos;{message?.content}&apos;</span> ?
         </div>
         <DialogFooter>
           <div className="px-6  py-3 ml-auto">

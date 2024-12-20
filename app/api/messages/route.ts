@@ -62,8 +62,7 @@ export async function GET(req: Request) {
       });
     }
 
-    const nextCursor =
-      messages.length === MESSAGE_BATCH ? messages[MESSAGE_BATCH - 1].id : null;
+    const nextCursor = messages.length === MESSAGE_BATCH ? messages[MESSAGE_BATCH - 1].id : null;
 
     return NextResponse.json({
       messages: messages,

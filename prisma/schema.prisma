@@ -25,6 +25,8 @@ model Profile{
   imageUrl String @db.Text
   email String @db.Text
   
+  wallpaper String @db.VarChar(255) @default("bg-red-500")
+
   servers Server[]
   members Member[]
 
