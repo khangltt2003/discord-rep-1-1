@@ -5,28 +5,14 @@ import { FileText, X } from "lucide-react";
 import Image from "next/image";
 
 interface FileUploadProps {
-  onChange: ({
-    content,
-    fileUrl,
-    type,
-  }: {
-    content: string;
-    fileUrl: string;
-    type: string;
-  }) => void;
+  onChange: ({ content, fileUrl, type }: { content: string; fileUrl: string; type: string }) => void;
   content: string;
   fileUrl: string;
   endpoint: "messageFile" | "serverImage";
   type: string;
 }
 
-const FileUpload = ({
-  onChange,
-  content,
-  fileUrl,
-  type,
-  endpoint,
-}: FileUploadProps) => {
+const FileUpload = ({ onChange, content, fileUrl, type, endpoint }: FileUploadProps) => {
   if (fileUrl && type !== "pdf") {
     return (
       <div className="relative h-20 w-20">

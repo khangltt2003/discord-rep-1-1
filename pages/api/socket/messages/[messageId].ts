@@ -4,10 +4,7 @@ import { NextApiResponseServerIo } from "@/type";
 import { MemberRole } from "@prisma/client";
 import { NextApiRequest } from "next";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponseServerIo,
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponseServerIo) {
   if (req.method !== "PATCH" && req.method !== "DELETE") {
     return res.status(405).json({ error: "method not allowed" });
   }
@@ -63,9 +60,7 @@ export default async function handler(
       return res.status(400).json({ error: "cannot find server" });
     }
 
-    const member = server?.members.find(
-      (member) => member.profileId === profile.id,
-    );
+    const member = server?.members.find((member) => member.profileId === profile.id);
 
     if (!member) {
       return res.status(400).json({ error: "cannot find member" });

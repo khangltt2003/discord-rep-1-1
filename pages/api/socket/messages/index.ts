@@ -3,10 +3,7 @@ import { db } from "@/lib/db";
 import { NextApiResponseServerIo } from "@/type";
 import { NextApiRequest } from "next";
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponseServerIo,
-) {
+export default async function handler(req: NextApiRequest, res: NextApiResponseServerIo) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "method not allowed" });
   }
@@ -60,9 +57,7 @@ export default async function handler(
       return res.status(400).json({ error: "cannot find channel" });
     }
 
-    const member = server.members.find(
-      (member) => member.profileId === profile.id,
-    );
+    const member = server.members.find((member) => member.profileId === profile.id);
 
     if (!member) {
       return res.status(400).json({ error: "cannot find member" });
@@ -85,9 +80,9 @@ export default async function handler(
       },
     });
 
-    const channelKey = `channel-${channelId}-new-messages`;
+    const addKey = `channel-${channelId}-new-messages`;
 
-    res?.socket?.server?.io?.emit(channelKey, message);
+    res?.socket?.server?.io?.emit(addKey, message);
 
     return res.status(200).json(message);
   } catch (error) {

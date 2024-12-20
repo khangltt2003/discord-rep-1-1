@@ -9,10 +9,7 @@ interface ConversationTabProps {
   conversation: ConversationWithMemberProfile;
 }
 
-export const ConversationTab = ({
-  profileId,
-  conversation,
-}: ConversationTabProps) => {
+export const ConversationTab = ({ profileId, conversation }: ConversationTabProps) => {
   const params = useParams();
 
   const conversationId = params?.conversationId;
@@ -23,17 +20,13 @@ export const ConversationTab = ({
     router.push(`/conversations/${conversation.id}`);
   };
 
-  const memberTwo =
-    conversation.memberOneId === profileId
-      ? conversation.memberTwo
-      : conversation.memberOne;
+  const memberTwo = conversation.memberOneId === profileId ? conversation.memberTwo : conversation.memberOne;
 
   return (
     <div
       className={cn(
         "flex items-center gap-x-3 mb-2 p-1  rounded-lg  text-neutral-400 hover:text-neutral-300 hover:bg-neutral-700 font-semibold cursor-pointer",
-        conversationId === conversation.id &&
-          " bg-neutral-700 text-neutral-300",
+        conversationId === conversation.id && " bg-neutral-700 text-neutral-300"
       )}
       onClick={handleOnClick}
     >

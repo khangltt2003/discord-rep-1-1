@@ -2,13 +2,7 @@
 import { cn } from "@/lib/utils";
 import { ServerWithChannelsWithMembersWithProfiles } from "@/type";
 import { ChannelType } from "@prisma/client";
-import {
-  Hash,
-  ShieldAlert,
-  ShieldCheck,
-  Video,
-  Volume2Icon,
-} from "lucide-react";
+import { Hash, ShieldAlert, ShieldCheck, Video, Volume2Icon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Input } from "../ui/input";
@@ -26,44 +20,21 @@ const roleIconMap = {
   GUEST: null,
 };
 
-export function ServerSearch({
-  server,
-}: {
-  server: ServerWithChannelsWithMembersWithProfiles;
-}) {
+export function ServerSearch({ server }: { server: ServerWithChannelsWithMembersWithProfiles }) {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState("");
   const router = useRouter();
 
-  const filteredTextChannel = server.channels.filter(
-    (channel) =>
-      channel.name.includes(input.toLowerCase()) &&
-      channel.type === ChannelType.TEXT,
-  );
-  const filteredAudioChannel = server.channels.filter(
-    (channel) =>
-      channel.name.includes(input.toLowerCase()) &&
-      channel.type === ChannelType.AUDIO,
-  );
-  const filteredVideoChannel = server.channels.filter(
-    (channel) =>
-      channel.name.includes(input.toLowerCase()) &&
-      channel.type === ChannelType.VIDEO,
-  );
-  const filteredMember = server.members.filter((member) =>
-    member.profile.name.toLowerCase().includes(input.toLowerCase()),
-  );
+  const filteredTextChannel = server.channels.filter((channel) => channel.name.includes(input.toLowerCase()) && channel.type === ChannelType.TEXT);
+  const filteredAudioChannel = server.channels.filter((channel) => channel.name.includes(input.toLowerCase()) && channel.type === ChannelType.AUDIO);
+  const filteredVideoChannel = server.channels.filter((channel) => channel.name.includes(input.toLowerCase()) && channel.type === ChannelType.VIDEO);
+  const filteredMember = server.members.filter((member) => member.profile.name.toLowerCase().includes(input.toLowerCase()));
   const handleOnClick = (channelId: string) => {
     router.push(`/servers/${server.id}/channels/${channelId}`);
   };
 
   return (
-    <div
-      className={cn(
-        "mt-1 transition-all duration-300 relative",
-        isOpen ? "w-80" : "w-52",
-      )}
-    >
+    <div className={cn("mt-1 transition-all duration-300 relative", isOpen ? "w-80" : "w-52")}>
       <Input
         value={input}
         onChange={(e) => setInput(e.target.value)}

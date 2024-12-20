@@ -1,16 +1,7 @@
 "use client";
 
 import { Channel, MemberRole, Server } from "@prisma/client";
-import {
-  ChevronDown,
-  ChevronRight,
-  Edit,
-  Hash,
-  Plus,
-  Trash2,
-  Video,
-  Volume2Icon,
-} from "lucide-react";
+import { ChevronDown, ChevronRight, Edit, Hash, Plus, Trash2, Video, Volume2Icon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -31,12 +22,7 @@ const iconMap = {
   VIDEO: <Video className="h-5 w-5 mr-2" />,
 };
 
-export const ServerChannelBar = ({
-  server,
-  label,
-  channels,
-  role,
-}: ServerChannelBarProps) => {
+export const ServerChannelBar = ({ server, label, channels, role }: ServerChannelBarProps) => {
   const { onOpen } = useModal();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(true);
@@ -62,11 +48,7 @@ export const ServerChannelBar = ({
     }
   };
 
-  const handleEditAndDeleteChannel = (
-    e: React.MouseEvent,
-    action: ModalType,
-    channel: Channel,
-  ) => {
+  const handleEditAndDeleteChannel = (e: React.MouseEvent, action: ModalType, channel: Channel) => {
     e.stopPropagation();
     onOpen(action, { server, channel });
   };
@@ -74,25 +56,14 @@ export const ServerChannelBar = ({
   return (
     <div className="mx-3 mb-6">
       <div className="flex items-center text-neutral-400 text-sm ">
-        <div
-          className=" flex items-center font-semibold hover:text-neutral-300 uppercase cursor-pointer"
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          {isOpen ? (
-            <ChevronDown className="h-4 w-4 mr-2" />
-          ) : (
-            <ChevronRight className="h-4 w-4 mr-2" />
-          )}
+        <div className=" flex items-center font-semibold hover:text-neutral-300 uppercase cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ? <ChevronDown className="h-4 w-4 mr-2" /> : <ChevronRight className="h-4 w-4 mr-2" />}
           {label} channels
         </div>
 
         {role !== MemberRole.GUEST && (
           <div className="ml-auto">
-            <ActionToolTip
-              label={`add ${label} channel`}
-              side="right"
-              align="center"
-            >
+            <ActionToolTip label={`add ${label} channel`} side="right" align="center">
               <Plus className="h-4 w-4" onClick={handleAddChannel} />
             </ActionToolTip>
           </div>
@@ -107,8 +78,7 @@ export const ServerChannelBar = ({
                 key={channel.id}
                 className={cn(
                   "group flex items-center text-base mb-1 px-2 py-1 rounded-md text-neutral-400  hover:text-neutral-300 hover:bg-neutral-700 cursor-pointer",
-                  params.channelId === channel.id &&
-                    "bg-neutral-700 text-neutral-300",
+                  params.channelId === channel.id && "bg-neutral-700 text-neutral-300"
                 )}
                 onClick={() => handleOnClick(channel.id)}
               >
@@ -119,34 +89,12 @@ export const ServerChannelBar = ({
 
                 {role !== MemberRole.GUEST && (
                   <div className="group hidden group-hover:flex  font-normal items-center gap-1 ml-auto">
-                    <ActionToolTip
-                      label="edit channel"
-                      side="top"
-                      align="center"
-                    >
-                      <Edit
-                        className="h-4 w-4 hover:text-neutral-100"
-                        onClick={(e) =>
-                          handleEditAndDeleteChannel(e, "editChannel", channel)
-                        }
-                      />
+                    <ActionToolTip label="edit channel" side="top" align="center">
+                      <Edit className="h-4 w-4 hover:text-neutral-100" onClick={(e) => handleEditAndDeleteChannel(e, "editChannel", channel)} />
                     </ActionToolTip>
 
-                    <ActionToolTip
-                      label="delete channel"
-                      side="top"
-                      align="center"
-                    >
-                      <Trash2
-                        className="h-4 w-4 hover:text-neutral-100"
-                        onClick={(e) =>
-                          handleEditAndDeleteChannel(
-                            e,
-                            "deleteChannel",
-                            channel,
-                          )
-                        }
-                      />
+                    <ActionToolTip label="delete channel" side="top" align="center">
+                      <Trash2 className="h-4 w-4 hover:text-neutral-100" onClick={(e) => handleEditAndDeleteChannel(e, "deleteChannel", channel)} />
                     </ActionToolTip>
                   </div>
                 )}

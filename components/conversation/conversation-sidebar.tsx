@@ -31,13 +31,7 @@ export const ConversationSideBar = async () => {
       </div>
       <ScrollArea className="px-2">
         {conversations.map((conversation) => {
-          return (
-            <ConversationTab
-              key={conversation.id}
-              profileId={profile.id}
-              conversation={conversation}
-            />
-          );
+          return <ConversationTab key={conversation.id} profileId={profile.id} conversation={conversation} />;
         })}
       </ScrollArea>
     </div>

@@ -2,10 +2,7 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { currentProfile } from "./current-profile";
 
-export const initialConversation = async (
-  memberOneId: string,
-  memberTwoId: string,
-) => {
+export const initialConversation = async (memberOneId: string, memberTwoId: string) => {
   const profile = await currentProfile();
   if (!profile) {
     return redirect("/sign-in");

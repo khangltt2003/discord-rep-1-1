@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal-store";
@@ -28,7 +22,6 @@ const formatDate = (input: string | Date): string => {
     day: "numeric",
   };
 
-  // Use toLocaleDateString for consistent formatting
   return date.toLocaleDateString("en-US", options);
 };
 
@@ -86,16 +79,11 @@ export const CreateConversation = () => {
         </DialogHeader>
         <div className="w-full h-full  rounded-lg text-white mb-10 ">
           <div className={cn(`h-36 w-full relative mb-10`, profile?.wallpaper)}>
-            <UserAvatar
-              src={profile?.imageUrl}
-              className="abolute left-6 top-[100%] translate-y-[-50%]  md:h-16 md:w-16 ring-[6px] ring-[#1c1c1c]"
-            />
+            <UserAvatar src={profile?.imageUrl} className="abolute left-6 top-[100%] translate-y-[-50%]  md:h-16 md:w-16 ring-[6px] ring-[#1c1c1c]" />
           </div>
 
           <div className="flex flex-col  items-start px-4 text-neutral-300">
-            <h1 className="text-xl font-semibold leading-6 mb-1">
-              {profile?.name}
-            </h1>
+            <h1 className="text-xl font-semibold leading-6 mb-1">{profile?.name}</h1>
             <p className="text-sm mb-5">{profile?.email}</p>
             <div className="bg-neutral-700  w-full rounded-xl p-3">
               <p className="text-sm font-medium leading-6 mb-1">Member Since</p>
@@ -107,18 +95,10 @@ export const CreateConversation = () => {
           <div className="px-4  py-3 ml-auto">
             {!isLoading ? (
               <>
-                <Button
-                  variant={"link"}
-                  onClick={() => onClose()}
-                  className="focus-visible:ring-0 focus-visible:ring-offset-0"
-                >
+                <Button variant={"link"} onClick={() => onClose()} className="focus-visible:ring-0 focus-visible:ring-offset-0">
                   Cancel
                 </Button>
-                <Button
-                  variant={"destructive"}
-                  className="bg-red-600 hover:bg-red-700"
-                  onClick={handleCreateConversation}
-                >
+                <Button variant={"destructive"} className="bg-red-600 hover:bg-red-700" onClick={handleCreateConversation}>
                   Chat
                 </Button>
               </>

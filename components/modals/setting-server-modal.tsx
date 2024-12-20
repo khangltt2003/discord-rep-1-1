@@ -4,22 +4,8 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -108,12 +94,8 @@ export const SettingServerModal = () => {
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white text-black p-0 overflow-hidden font-semibold">
         <DialogHeader className="pt-8 px-6">
-          <DialogTitle className="text-2xl text-center font-bold">
-            Create your server
-          </DialogTitle>
-          <DialogDescription className="text-center text-zinc-500">
-            Give your server a name and an image.
-          </DialogDescription>
+          <DialogTitle className="text-2xl text-center font-bold">Create your server</DialogTitle>
+          <DialogDescription className="text-center text-zinc-500">Give your server a name and an image.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -125,12 +107,7 @@ export const SettingServerModal = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <FileUpload
-                          endpoint="serverImage"
-                          fileUrl={field.value.fileUrl}
-                          type={field.value.type}
-                          onChange={field.onChange}
-                        />
+                        <FileUpload endpoint="serverImage" fileUrl={field.value.fileUrl} type={field.value.type} onChange={field.onChange} />
                       </FormControl>
                       <FormMessage className="text-red-400" />
                     </FormItem>
@@ -142,9 +119,7 @@ export const SettingServerModal = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
-                      Sever Name
-                    </FormLabel>
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">Sever Name</FormLabel>
                     <FormControl>
                       <Input
                         disabled={isLoading}

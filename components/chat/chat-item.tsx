@@ -3,13 +3,7 @@
 import { MessageWithMemberProfile } from "@/type";
 import { Member, MemberRole, MessageType } from "@prisma/client";
 import { format } from "date-fns";
-import {
-  FileText,
-  PenSquare,
-  ShieldAlert,
-  ShieldCheck,
-  Trash2,
-} from "lucide-react";
+import { FileText, PenSquare, ShieldAlert, ShieldCheck, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { UserAvatar } from "../user-avatar";
@@ -42,25 +36,11 @@ interface ChatItemProps {
   socketQuery: Record<string, string>;
 }
 
-export const ChatItem = ({
-  currentMember,
-  message,
-  socketUrl,
-  socketQuery,
-}: ChatItemProps) => {
+export const ChatItem = ({ currentMember, message, socketUrl, socketQuery }: ChatItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const { onOpen } = useModal();
 
-  const {
-    id,
-    content,
-    member,
-    type,
-    fileUrl,
-    isDeleted,
-    createdAt,
-    updatedAt,
-  } = message;
+  const { id, content, member, type, fileUrl, isDeleted, createdAt, updatedAt } = message;
   const { name, imageUrl } = member.profile;
 
   const timestamp = format(new Date(createdAt), "hh:mm a");
@@ -129,31 +109,23 @@ export const ChatItem = ({
       {/* edit and delete */}
       {!isDeleted && (
         <div className="hidden group-hover:flex  gap-1 absolute top-[-10px] right-3  z-30 bg-[#424549] rounded-lg p-2">
-          {canEditMessage && (
-            <PenSquare
-              className="h-5 w-5 text-neutral-300 hover:text-neutral-100"
-              onClick={handleEdit}
-            />
-          )}
+          {canEditMessage && <PenSquare className="h-5 w-5 text-neutral-300 hover:text-neutral-100" onClick={handleEdit} />}
           {canDeleteMessage && (
             <Trash2
               className="h-5 w-5 text-rose-600 hover:text-rose-500 "
-              onClick={() =>
-                onOpen("deleteMessage", { socketUrl, socketQuery, message })
-              }
+              onClick={() => onOpen("deleteMessage", { socketUrl, socketQuery, message })}
             />
           )}
         </div>
       )}
-
-      <UserAvatar src={imageUrl} className="md:h-10 md:w-10" />
+      <div className="cursor-pointer" onClick={() => onOpen("createConversation", { profile: member.profile })}>
+        <UserAvatar src={imageUrl} className="md:h-10 md:w-10" />
+      </div>
       <div className="flex flex-col w-full">
         <div className="flex items-center space-x-2">
           <span
             className="font-semibold group text-neutral-300 group-hover:text-neutral-200 hover:underline cursor-pointer"
-            onClick={() =>
-              onOpen("createConversation", { profile: member.profile })
-            }
+            onClick={() => onOpen("createConversation", { profile: member.profile })}
           >
             {name}
           </span>
@@ -166,21 +138,13 @@ export const ChatItem = ({
             {type === MessageType.TEXT && !isEditing && (
               <p className="text-base text-gray-300 group  group-hover:text-gray-200">
                 {content}
-                {isEdited && (
-                  <span className="text-xs text-gray-400 hover:text-gray-300 ">
-                    {" "}
-                    (edited)
-                  </span>
-                )}
+                {isEdited && <span className="text-xs text-gray-400 hover:text-gray-300 "> (edited)</span>}
               </p>
             )}
 
             {type === MessageType.TEXT && isEditing && (
               <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(handleSubmit)}
-                  className="flex items-center w-full gap-x-2 pt-2"
-                >
+                <form onSubmit={form.handleSubmit(handleSubmit)} className="flex items-center w-full gap-x-2 pt-2">
                   <FormField
                     control={form.control}
                     name="content"
@@ -196,11 +160,7 @@ export const ChatItem = ({
                               {...field}
                             />
                             <div className="absolute top-[50%] translate-y-[-50%] right-2 flex items-center gap-2">
-                              <EmojiPicker
-                                onPick={(emoji) =>
-                                  field.onChange(`${field.value}${emoji}`)
-                                }
-                              />
+                              <EmojiPicker onPick={(emoji) => field.onChange(`${field.value}${emoji}`)} />
                             </div>
                           </div>
                         </FormControl>
@@ -209,48 +169,27 @@ export const ChatItem = ({
                   />
                   <Button variant="primary">save</Button>
                 </form>
-                <span className="text-sm text-neutral-400 mt-1">
-                  press &apos;esc&apos; to cancel, or &apos;enter&apos; to save.
-                </span>
+                <span className="text-sm text-neutral-400 mt-1">press &apos;esc&apos; to cancel, or &apos;enter&apos; to save.</span>
               </Form>
             )}
 
             {type === MessageType.IMAGE && fileUrl && (
-              <a
-                href={fileUrl}
-                className="relative items-center h-48 w-48 rounded-xl overflow-hidden"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Image
-                  src={fileUrl}
-                  alt={content}
-                  fill
-                  className="object-cover"
-                />
+              <a href={fileUrl} className="relative items-center h-48 w-48 rounded-xl overflow-hidden" target="_blank" rel="noopener noreferrer">
+                <Image src={fileUrl} alt={content} fill className="object-cover" />
               </a>
             )}
 
             {type === MessageType.PDF && fileUrl && (
-              <a
-                href={fileUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-48 border border-neutral-300 rounded-lg overflow-hidden"
-              >
+              <a href={fileUrl} target="_blank" rel="noopener noreferrer" className="w-48 border border-neutral-300 rounded-lg overflow-hidden">
                 <div className="flex items-center gap-2 bg-[#242424] p-4 ">
                   <FileText className="h-12 w-12 font-thin text-neutral-300" />
-                  <span className="text-sm text-neutral-300 hover:underline">
-                    {content}
-                  </span>
+                  <span className="text-sm text-neutral-300 hover:underline">{content}</span>
                 </div>
               </a>
             )}
           </>
         ) : (
-          <p className="text-sm text-neutral-500 italic">
-            this message is deleted.
-          </p>
+          <p className="text-sm text-neutral-500 italic">this message is deleted.</p>
         )}
       </div>
     </div>

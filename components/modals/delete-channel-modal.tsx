@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal-store";
@@ -59,30 +53,19 @@ export const DeleteChannelModal = () => {
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-neutral-700 text-white p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
-          <DialogTitle className="text-2xl text-center font-bold">
-            Delete Channel
-          </DialogTitle>
+          <DialogTitle className="text-2xl text-center font-bold">Delete Channel</DialogTitle>
         </DialogHeader>
         <div className="px-6">
-          Are you sure you want to delete{" "}
-          <span className="font-bold">{channel?.name}</span> ?
+          Are you sure you want to delete <span className="font-bold">{channel?.name}</span> ?
         </div>
         <DialogFooter>
           <div className="px-6  py-3 ml-auto">
             {!isLoading ? (
               <>
-                <Button
-                  variant={"link"}
-                  onClick={() => onClose()}
-                  className="focus-visible:ring-0 focus-visible:ring-offset-0"
-                >
+                <Button variant={"link"} onClick={() => onClose()} className="focus-visible:ring-0 focus-visible:ring-offset-0">
                   Cancel
                 </Button>
-                <Button
-                  variant={"destructive"}
-                  className="bg-red-600 hover:bg-red-700"
-                  onClick={handleDeleteServer}
-                >
+                <Button variant={"destructive"} className="bg-red-600 hover:bg-red-700" onClick={handleDeleteServer}>
                   Delete
                 </Button>
               </>

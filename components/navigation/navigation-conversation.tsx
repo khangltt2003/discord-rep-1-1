@@ -22,20 +22,16 @@ const NavigationConversation = () => {
           className={cn(
             "absolute left-0 bg-primary rounded-r-full transition-all w-[4px]",
             !isConversationsRoute && "group-hover:h-[20px]",
-            isConversationsRoute ? "h-[40px]" : "h-[8px]",
+            isConversationsRoute ? "h-[40px]" : "h-[8px]"
           )}
         />
         <div
           className={cn(
             "group flex items-center justify-center mx-3 h-[48px] w-[48px]  rounded-[24px] bg-neutral-700 hover:bg-indigo-500 group-hover:rounded-[16px] transition-all overflow-hidden",
-            isConversationsRoute && "bg-indigo-500 text-primary rounded-[16px]",
+            isConversationsRoute && "bg-indigo-500 text-primary rounded-[16px]"
           )}
         >
-          {isConversationsRoute ? (
-            <LucideMessageSquareText className="z-50" />
-          ) : (
-            <MessageSquare className="z-50" />
-          )}
+          {isConversationsRoute ? <LucideMessageSquareText className="z-50" /> : <MessageSquare className="z-50" />}
         </div>
       </button>
     </ActionToolTip>

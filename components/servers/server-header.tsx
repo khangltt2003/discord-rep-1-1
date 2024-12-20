@@ -1,24 +1,10 @@
 "use client";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { useModal } from "@/hooks/use-modal-store";
 import { ServerWithMembersWithProfiles } from "@/type";
 import { MemberRole } from "@prisma/client";
-import {
-  ChevronDown,
-  CirclePlus,
-  LogOut,
-  Settings,
-  Trash2,
-  User,
-  UserPlus,
-} from "lucide-react";
+import { ChevronDown, CirclePlus, LogOut, Settings, Trash2, User, UserPlus } from "lucide-react";
 
 interface ServerHeaderProps {
   server: ServerWithMembersWithProfiles;
@@ -55,28 +41,19 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
           </DropdownMenuItem>
         )}
         {isMod && (
-          <DropdownMenuItem
-            className=" px-3 py-2 text-sm cursor-pointer"
-            onClick={() => onOpen("createChannel", { server: server })}
-          >
+          <DropdownMenuItem className=" px-3 py-2 text-sm cursor-pointer" onClick={() => onOpen("createChannel", { server: server })}>
             Create Channel
             <CirclePlus className="h-4 w-4 ml-auto" />
           </DropdownMenuItem>
         )}
         {isAdmin && (
-          <DropdownMenuItem
-            className="px-3 py-2 text-sm cursor-pointer"
-            onClick={() => onOpen("serverSetting", { server: server })}
-          >
+          <DropdownMenuItem className="px-3 py-2 text-sm cursor-pointer" onClick={() => onOpen("serverSetting", { server: server })}>
             Server Setting
             <Settings className="h-4 w-4 ml-auto" />
           </DropdownMenuItem>
         )}
         {isAdmin && (
-          <DropdownMenuItem
-            className=" px-3 py-2 text-sm cursor-pointer"
-            onClick={() => onOpen("manageMember", { server: server })}
-          >
+          <DropdownMenuItem className=" px-3 py-2 text-sm cursor-pointer" onClick={() => onOpen("manageMember", { server: server })}>
             Manage Members
             <User className="h-4 w-4 ml-auto" />
           </DropdownMenuItem>

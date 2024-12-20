@@ -22,9 +22,7 @@ export const ServerMemberTab = ({ role, profile }: ServerMemberTabProps) => {
 
   return (
     <div
-      className={cn(
-        "flex items-center gap-x-3 mb-2 p-1  rounded-lg hover:text-neutral-300 hover:bg-neutral-700 cursor-pointer",
-      )}
+      className={cn("flex items-center gap-x-3 mb-2 p-1  rounded-lg hover:text-neutral-300 hover:bg-neutral-700 cursor-pointer")}
       onClick={() => onOpen("createConversation", { profile })}
     >
       <UserAvatar src={profile.imageUrl} className={"h-1 w-1"} />

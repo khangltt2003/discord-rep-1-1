@@ -4,23 +4,8 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -103,27 +88,18 @@ export const CreateChannelModal = () => {
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-white dark:bg-neutral-700 dark:text-white text-black p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
-          <DialogTitle className="text-2xl text-center font-bold dark:text-white">
-            Create a channel
-          </DialogTitle>
-          <DialogDescription className="text-center dark:text-white ">
-            Give new channel a name and a type.
-          </DialogDescription>
+          <DialogTitle className="text-2xl text-center font-bold dark:text-white">Create a channel</DialogTitle>
+          <DialogDescription className="text-center dark:text-white ">Give new channel a name and a type.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-8 font-semibold"
-          >
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8 font-semibold">
             <div className="space-y-8 px-6">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="uppercase text-xs font-bold text-zinc-500  dark:text-white">
-                      Channel Name
-                    </FormLabel>
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500  dark:text-white">Channel Name</FormLabel>
                     <FormControl>
                       <Input
                         disabled={isLoading}
@@ -141,95 +117,59 @@ export const CreateChannelModal = () => {
                 name="type"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel className="uppercase text-xs font-bold text-zinc-500  dark:text-white">
-                      Channel Type
-                    </FormLabel>
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500  dark:text-white">Channel Type</FormLabel>
                     <FormControl>
-                      <RadioGroup
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                        className="flex flex-col "
-                      >
+                      <RadioGroup onValueChange={field.onChange} defaultValue={field.value} className="flex flex-col ">
                         <FormItem
-                          className={cn(
-                            "flex items-center space-x-3 space-y-0 rounded-lg",
-                            field.value === ChannelType.TEXT &&
-                              "bg-neutral-800",
-                          )}
+                          className={cn("flex items-center space-x-3 space-y-0 rounded-lg", field.value === ChannelType.TEXT && "bg-neutral-800")}
                         >
                           <div className="w-full  flex items-center p-2">
-                            <FormLabel
-                              className={"font-normal flex gap-2 items-center"}
-                            >
+                            <FormLabel className={"font-normal flex gap-2 items-center"}>
                               <Hash />
                               <div>
                                 <p className="text-base">Text</p>
-                                <FormDescription>
-                                  Send messages, images, GIFs, emoji, opinions,
-                                  and puns.
-                                </FormDescription>
+                                <FormDescription>Send messages, images, GIFs, emoji, opinions, and puns.</FormDescription>
                               </div>
                             </FormLabel>
 
                             <FormControl>
-                              <RadioGroupItem
-                                className="ml-auto"
-                                value={ChannelType.TEXT}
-                              />
+                              <RadioGroupItem className="ml-auto" value={ChannelType.TEXT} />
                             </FormControl>
                           </div>
                         </FormItem>
 
                         <FormItem
-                          className={cn(
-                            "flex items-center space-x-3 space-y-0 rounded-lg",
-                            field.value === ChannelType.AUDIO &&
-                              "bg-neutral-800",
-                          )}
+                          className={cn("flex items-center space-x-3 space-y-0 rounded-lg", field.value === ChannelType.AUDIO && "bg-neutral-800")}
                         >
                           <div className="w-full  flex items-center p-2">
                             <FormLabel className="font-normal flex gap-2 items-center">
                               <Volume2Icon />
                               <div>
                                 <p className="text-base">Audio</p>
-                                <FormDescription>
-                                  Hang out with voice call.
-                                </FormDescription>
+                                <FormDescription>Hang out with voice call.</FormDescription>
                               </div>
                             </FormLabel>
 
                             <FormControl>
-                              <RadioGroupItem
-                                className="ml-auto"
-                                value={ChannelType.AUDIO}
-                              />
+                              <RadioGroupItem className="ml-auto" value={ChannelType.AUDIO} />
                             </FormControl>
                           </div>
                         </FormItem>
 
                         <FormItem
-                          className={cn(
-                            "flex items-center space-x-3 space-y-0 rounded-lg",
-                            field.value === ChannelType.VIDEO &&
-                              "bg-neutral-800",
-                          )}
+                          className={cn("flex items-center space-x-3 space-y-0 rounded-lg", field.value === ChannelType.VIDEO && "bg-neutral-800")}
                         >
                           <div className="w-full  flex items-center p-2">
                             <FormLabel className="font-normal flex gap-2 items-center">
                               <Video />
                               <div>
                                 <p className="text-base">Video</p>
-                                <FormDescription>
-                                  Hang out with video call.
-                                </FormDescription>
+                                <FormDescription>Hang out with video call.</FormDescription>
                               </div>
                             </FormLabel>
 
                             <FormControl>
-                              <RadioGroupItem
-                                className="ml-auto"
-                                value={ChannelType.VIDEO}
-                              />
+                              <RadioGroupItem className="ml-auto" value={ChannelType.VIDEO} />
                             </FormControl>
                           </div>
                         </FormItem>
@@ -241,11 +181,7 @@ export const CreateChannelModal = () => {
               />
             </div>
             <DialogFooter className="bg-gray-100 dark:bg-neutral-700 dark:text-white px-6 pb-4">
-              <Button
-                variant="primary"
-                className="bg-green-500 hover:bg-green-600"
-                disabled={isLoading}
-              >
+              <Button variant="primary" className="bg-green-500 hover:bg-green-600" disabled={isLoading}>
                 Create
               </Button>
             </DialogFooter>

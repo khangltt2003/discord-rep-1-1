@@ -4,20 +4,8 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
@@ -90,9 +78,7 @@ export const MessageFileModal = () => {
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-neutral-600 text-neutral-300 p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
-          <DialogTitle className="text-2xl text-center font-bold">
-            Upload file
-          </DialogTitle>
+          <DialogTitle className="text-2xl text-center font-bold">Upload file</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -119,11 +105,7 @@ export const MessageFileModal = () => {
               </div>
             </div>
             <DialogFooter className="bg-neutral-600 px-6 py-4">
-              <Button
-                className="bg-emerald-500 hover:bg-emerald-600 text-white"
-                variant="primary"
-                disabled={isLoading}
-              >
+              <Button className="bg-emerald-500 hover:bg-emerald-600 text-white" variant="primary" disabled={isLoading}>
                 Upload
               </Button>
             </DialogFooter>

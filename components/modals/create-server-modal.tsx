@@ -4,22 +4,8 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -93,18 +79,11 @@ export const CreateServerModal = () => {
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className="bg-neutral-600 text-neutral-300 p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
-          <DialogTitle className="text-2xl text-center font-bold">
-            Create your server
-          </DialogTitle>
-          <DialogDescription className="text-center text-zinc-500">
-            Give your server a name and an image.
-          </DialogDescription>
+          <DialogTitle className="text-2xl text-center font-bold">Create your server</DialogTitle>
+          <DialogDescription className="text-center text-zinc-500">Give your server a name and an image.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-8 font-semibold"
-          >
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8 font-semibold">
             <div className="spae-y-8 px-6">
               <div className="flex items-center justify-center text-center">
                 <FormField
@@ -113,12 +92,7 @@ export const CreateServerModal = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <FileUpload
-                          endpoint="serverImage"
-                          fileUrl={field.value.fileUrl}
-                          type={field.value.type}
-                          onChange={field.onChange}
-                        />
+                        <FileUpload endpoint="serverImage" fileUrl={field.value.fileUrl} type={field.value.type} onChange={field.onChange} />
                       </FormControl>
                       <FormMessage className="text-red-400" />
                     </FormItem>
@@ -130,9 +104,7 @@ export const CreateServerModal = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="uppercase text-xs font-bold text-white ">
-                      Sever Name
-                    </FormLabel>
+                    <FormLabel className="uppercase text-xs font-bold text-white ">Sever Name</FormLabel>
                     <FormControl>
                       <Input
                         disabled={isLoading}
@@ -147,11 +119,7 @@ export const CreateServerModal = () => {
               />
             </div>
             <DialogFooter className="bg-neutral-600 px-6 py-4">
-              <Button
-                variant="primary"
-                disabled={isLoading}
-                className="bg-emerald-500 hover:bg-emerald-600 text-white"
-              >
+              <Button variant="primary" disabled={isLoading} className="bg-emerald-500 hover:bg-emerald-600 text-white">
                 Create
               </Button>
             </DialogFooter>
