@@ -19,7 +19,9 @@ export async function POST(req: Request) {
     const { name, type } = await req.json();
 
     if (name === "general") {
-      return new NextResponse("channel name cannot be 'general'", { status: 400 });
+      return new NextResponse("channel name cannot be 'general'", {
+        status: 400,
+      });
     }
 
     await db.server.update({

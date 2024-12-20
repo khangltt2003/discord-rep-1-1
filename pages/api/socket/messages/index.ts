@@ -1,10 +1,12 @@
 import { currentProfilePages } from "@/lib/current-profile-pages ";
 import { db } from "@/lib/db";
 import { NextApiResponseServerIo } from "@/type";
-import { MessageType } from "@prisma/client";
 import { NextApiRequest } from "next";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponseServerIo) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponseServerIo,
+) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "method not allowed" });
   }
@@ -58,7 +60,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
       return res.status(400).json({ error: "cannot find channel" });
     }
 
-    const member = server.members.find((member) => member.profileId === profile.id);
+    const member = server.members.find(
+      (member) => member.profileId === profile.id,
+    );
 
     if (!member) {
       return res.status(400).json({ error: "cannot find member" });
@@ -81,7 +85,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
       },
     });
 
-    const channelKey = `chat:${channelId}:messages`;
+    const channelKey = `channel-${channelId}-messages`;
 
     res?.socket?.server?.io?.emit(channelKey, message);
 

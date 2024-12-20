@@ -1,8 +1,8 @@
-import { ChannelType, Server } from "@prisma/client";
+import { ServerWithChannelsWithMembersWithProfiles } from "@/type";
+import { ChannelType } from "@prisma/client";
 import { Hash, Video, Volume2Icon } from "lucide-react";
 import MobileToggle from "../mobile-toggle";
 import ServerSearch from "../servers/server-search";
-import { ServerWithChannelsWithMembersWithProfiles } from "@/type";
 import { SocketIndicator } from "../socket-indicator";
 
 const iconMap = {
@@ -18,7 +18,12 @@ interface ChatHeaderProps {
   server: ServerWithChannelsWithMembersWithProfiles;
 }
 
-export const ChannelHeader = ({ server, name, type, serverId }: ChatHeaderProps) => {
+export const ChannelHeader = ({
+  server,
+  name,
+  type,
+  serverId,
+}: ChatHeaderProps) => {
   return (
     <div className="h-12 flex items-center border-b-2 border-neutral-600 px-4 text-neutral-300 font-semibold">
       <MobileToggle serverId={serverId} />

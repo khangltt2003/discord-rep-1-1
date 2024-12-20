@@ -10,7 +10,12 @@ interface ChatQueryProps {
   paramValue: string;
 }
 
-export const useChatQuery = ({ queryKey, apiUrl, paramKey, paramValue }: ChatQueryProps) => {
+export const useChatQuery = ({
+  queryKey,
+  apiUrl,
+  paramKey,
+  paramValue,
+}: ChatQueryProps) => {
   const { isConnected } = useSocket();
 
   const fetchMessages = async (pageParam?: string) => {
@@ -22,19 +27,20 @@ export const useChatQuery = ({ queryKey, apiUrl, paramKey, paramValue }: ChatQue
           [paramKey]: paramValue,
         },
       },
-      { skipNull: true }
+      { skipNull: true },
     );
     const response = await axios.get(url);
     return response.data;
   };
 
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, status } = useInfiniteQuery({
-    queryKey: [queryKey],
-    initialPageParam: undefined,
-    queryFn: ({ pageParam }) => fetchMessages(pageParam),
-    getNextPageParam: (lastPage) => lastPage?.nextCursor,
-    refetchInterval: isConnected ? false : 1000, //refetch when socket fails
-  });
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage, status } =
+    useInfiniteQuery({
+      queryKey: [queryKey],
+      initialPageParam: undefined,
+      queryFn: ({ pageParam }) => fetchMessages(pageParam),
+      getNextPageParam: (lastPage) => lastPage?.nextCursor,
+      refetchInterval: isConnected ? false : 1000, //refetch when socket fails
+    });
 
   return { data, hasNextPage, fetchNextPage, isFetchingNextPage, status };
 };

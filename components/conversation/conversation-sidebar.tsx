@@ -1,9 +1,8 @@
-import React from "react";
-import { ConversationTab } from "./conversation-tab";
-import { redirect } from "next/navigation";
-import { db } from "@/lib/db";
 import { currentProfile } from "@/lib/current-profile";
+import { db } from "@/lib/db";
+import { redirect } from "next/navigation";
 import { ScrollArea } from "../ui/scroll-area";
+import { ConversationTab } from "./conversation-tab";
 
 export const ConversationSideBar = async () => {
   const profile = await currentProfile();
@@ -32,7 +31,13 @@ export const ConversationSideBar = async () => {
       </div>
       <ScrollArea className="px-2">
         {conversations.map((conversation) => {
-          return <ConversationTab key={conversation.id} profileId={profile.id} conversation={conversation} />;
+          return (
+            <ConversationTab
+              key={conversation.id}
+              profileId={profile.id}
+              conversation={conversation}
+            />
+          );
         })}
       </ScrollArea>
     </div>

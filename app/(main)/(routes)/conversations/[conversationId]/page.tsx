@@ -1,13 +1,13 @@
 import { ConversationHeader } from "@/components/conversation/conversation-header";
-import { ChannelInput } from "@/components/conversation/conversation-input";
 import ProfileCard from "@/components/conversation/conversation-member-card";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { ScrollArea } from "@radix-ui/react-scroll-area";
 import { redirect } from "next/navigation";
-import React from "react";
 
-const ConversationPage = async (props: { params: Promise<{ conversationId: string }> }) => {
+const ConversationPage = async (props: {
+  params: Promise<{ conversationId: string }>;
+}) => {
   const profile = await currentProfile();
 
   if (!profile) {
@@ -36,7 +36,10 @@ const ConversationPage = async (props: { params: Promise<{ conversationId: strin
     return redirect("/");
   }
 
-  const memberTwo = conversation.memberOneId === profile.id ? conversation.memberTwo : conversation.memberOne;
+  const memberTwo =
+    conversation.memberOneId === profile.id
+      ? conversation.memberTwo
+      : conversation.memberOne;
 
   return (
     <div className="bg-white dark:bg-[#00000014] h-full flex flex-col ">

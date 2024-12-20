@@ -1,12 +1,14 @@
-import { ChannelHeader } from "@/components/channel/channel-header";
-import { ChannelInput } from "@/components/channel/channel-input";
-import { ChannelMessages } from "@/components/channel/channel-messages";
+import { ChannelHeader } from "@/components/chat/chat-header";
+import { ChannelInput } from "@/components/chat/chat-input";
+import { ChannelMessages } from "@/components/chat/chat-messages";
 import { ServerMemberSidebar } from "@/components/servers/server-member-sidebar";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 
-const ChannelPage = async (props: { params: Promise<{ serverId: string; channelId: string }> }) => {
+const ChannelPage = async (props: {
+  params: Promise<{ serverId: string; channelId: string }>;
+}) => {
   const params = await props.params;
 
   const profile = await currentProfile();
@@ -61,7 +63,12 @@ const ChannelPage = async (props: { params: Promise<{ serverId: string; channelI
   return (
     <div className="h-full  bg-white dark:bg-[#00000014] flex flex-col ">
       <div className="h-12">
-        <ChannelHeader server={server} serverId={params.serverId} type={channel.type} name={channel.name} />
+        <ChannelHeader
+          server={server}
+          serverId={params.serverId}
+          type={channel.type}
+          name={channel.name}
+        />
       </div>
 
       <div className=" w-full h-full flex-1 flex border overflow-y-auto">
@@ -79,7 +86,12 @@ const ChannelPage = async (props: { params: Promise<{ serverId: string; channelI
             type="channel"
           />
           <div className="px-4 py-3">
-            <ChannelInput name={channel.name} type="channel" apiUrl="/api/socket/messages" query={{ channelId: channel.id, serverId: server.id }} />
+            <ChannelInput
+              name={channel.name}
+              type="channel"
+              socketUrl="/api/socket/messages"
+              socketQuery={{ channelId: channel.id, serverId: server.id }}
+            />
           </div>
         </div>
 

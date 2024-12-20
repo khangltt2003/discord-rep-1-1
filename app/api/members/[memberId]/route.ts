@@ -3,7 +3,10 @@ import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 //change member role
-export async function PATCH(req: Request, props: { params: Promise<{ memberId: string }> }) {
+export async function PATCH(
+  req: Request,
+  props: { params: Promise<{ memberId: string }> },
+) {
   const params = await props.params;
   const { searchParams } = new URL(req.url);
   const { role } = await req.json();
@@ -63,7 +66,10 @@ export async function PATCH(req: Request, props: { params: Promise<{ memberId: s
 }
 
 //kick member
-export async function DELETE(req: Request, props: { params: Promise<{ memberId: string }> }) {
+export async function DELETE(
+  req: Request,
+  props: { params: Promise<{ memberId: string }> },
+) {
   const params = await props.params;
   try {
     //check admin

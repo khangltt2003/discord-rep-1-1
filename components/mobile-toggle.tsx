@@ -1,7 +1,6 @@
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
 
-import React from "react";
 import { NavigationSidebar } from "./navigation/navigation-sidebar";
 import { ServerSidebar } from "./servers/server-sidebar";
 

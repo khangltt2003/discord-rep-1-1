@@ -2,10 +2,10 @@ import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { ChannelType, MemberRole } from "@prisma/client";
 import { redirect } from "next/navigation";
-import { ServerHeader } from "./server-header";
-import { ServerChannelBar } from "./server-channel-bar";
-import { Separator } from "../ui/separator";
 import { ScrollArea } from "../ui/scroll-area";
+import { Separator } from "../ui/separator";
+import { ServerChannelBar } from "./server-channel-bar";
+import { ServerHeader } from "./server-header";
 
 interface ServersidebarProps {
   serverId: string;
@@ -44,15 +44,23 @@ export const ServerSidebar = async ({ serverId }: ServersidebarProps) => {
     },
   });
 
-  const textChannels = server?.channels.filter((channel) => channel.type === ChannelType.TEXT);
-  const audioChannels = server?.channels.filter((channel) => channel.type === ChannelType.AUDIO);
-  const videoChannels = server?.channels.filter((channel) => channel.type === ChannelType.VIDEO);
+  const textChannels = server?.channels.filter(
+    (channel) => channel.type === ChannelType.TEXT,
+  );
+  const audioChannels = server?.channels.filter(
+    (channel) => channel.type === ChannelType.AUDIO,
+  );
+  const videoChannels = server?.channels.filter(
+    (channel) => channel.type === ChannelType.VIDEO,
+  );
 
   if (!server) {
     return redirect("/");
   }
 
-  const role = server.members.find((member) => member.profileId === profile.id)?.role;
+  const role = server.members.find(
+    (member) => member.profileId === profile.id,
+  )?.role;
 
   return (
     <div className=" h-full flex flex-col ">
@@ -60,13 +68,28 @@ export const ServerSidebar = async ({ serverId }: ServersidebarProps) => {
         <ServerHeader server={server} role={role} />
       </div>
       <ScrollArea>
-        <ServerChannelBar label="text" server={server} channels={textChannels ? textChannels : []} role={role ? role : MemberRole.GUEST} />
+        <ServerChannelBar
+          label="text"
+          server={server}
+          channels={textChannels ? textChannels : []}
+          role={role ? role : MemberRole.GUEST}
+        />
         <Separator className="  bg-neutral-500 my-3" />
 
-        <ServerChannelBar label="audio" server={server} channels={audioChannels ? audioChannels : []} role={role ? role : MemberRole.GUEST} />
+        <ServerChannelBar
+          label="audio"
+          server={server}
+          channels={audioChannels ? audioChannels : []}
+          role={role ? role : MemberRole.GUEST}
+        />
         <Separator className=" bg-neutral-500 my-3" />
 
-        <ServerChannelBar label="video" server={server} channels={videoChannels ? videoChannels : []} role={role ? role : MemberRole.GUEST} />
+        <ServerChannelBar
+          label="video"
+          server={server}
+          channels={videoChannels ? videoChannels : []}
+          role={role ? role : MemberRole.GUEST}
+        />
       </ScrollArea>
     </div>
   );

@@ -1,21 +1,39 @@
 "use client";
 
-import { Dialog, DialogContent, DialogTitle, DialogHeader, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
-import { useModal } from "@/hooks/use-modal-store";
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { CheckIcon, ChevronDown, DoorOpen, Loader2, ShieldAlert, ShieldCheck } from "lucide-react";
-import axios from "axios";
-import { ServerWithMembersWithProfiles } from "@/type";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MemberRole } from "@prisma/client";
 import { UserAvatar } from "@/components/user-avatar";
+import { useModal } from "@/hooks/use-modal-store";
+import { ServerWithMembersWithProfiles } from "@/type";
+import { MemberRole } from "@prisma/client";
+import axios from "axios";
+import {
+  CheckIcon,
+  ChevronDown,
+  DoorOpen,
+  Loader2,
+  ShieldAlert,
+  ShieldCheck,
+} from "lucide-react";
+import { useEffect, useState } from "react";
 
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-import queryString from "query-string";
 import { useRouter } from "next/navigation";
+import queryString from "query-string";
 
 const roleIconMap = {
   ADMIN: <ShieldAlert className="h-5 w-5 text-red-400" />,
@@ -84,13 +102,18 @@ export const ManageMemberModal = () => {
     <Dialog open={isModalOpen} onOpenChange={onClose}>
       <DialogContent className="bg-neutral-700 text-white p-0 overflow-hidden font-semibold">
         <DialogHeader className="pt-8 px-6">
-          <DialogTitle className="text-2xl text-center font-bold">Manage Members</DialogTitle>
+          <DialogTitle className="text-2xl text-center font-bold">
+            Manage Members
+          </DialogTitle>
           <DialogDescription className="text-center font-bold">{`${server?.members?.length} ${server?.members?.length > 1 ? "Members" : "Member"} `}</DialogDescription>
         </DialogHeader>
         <ScrollArea className="max-h-[420px] p-6">
           {server?.members?.map((member) => {
             return (
-              <div key={member.id} className="flex h-[60px] border-y border-neutral-500 ">
+              <div
+                key={member.id}
+                className="flex h-[60px] border-y border-neutral-500 "
+              >
                 <div className="flex items-center gap-x-2">
                   <UserAvatar src={member.profile.imageUrl} />
                   {member.profile.name}
@@ -111,15 +134,28 @@ export const ManageMemberModal = () => {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent>
-                            <DropdownMenuItem onClick={() => handleChangeRole(member.id, "MODERATOR")}>
-                              MODERATOR {member.role === "MODERATOR" && <CheckIcon />}
+                            <DropdownMenuItem
+                              onClick={() =>
+                                handleChangeRole(member.id, "MODERATOR")
+                              }
+                            >
+                              MODERATOR{" "}
+                              {member.role === "MODERATOR" && <CheckIcon />}
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleChangeRole(member.id, "GUEST")}>
+                            <DropdownMenuItem
+                              onClick={() =>
+                                handleChangeRole(member.id, "GUEST")
+                              }
+                            >
                               GUEST {member.role === "GUEST" && <CheckIcon />}
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
-                        <Button variant="outline" className="bg-red-500 hover:bg-red-600" onClick={() => handleKick(member.id)}>
+                        <Button
+                          variant="outline"
+                          className="bg-red-500 hover:bg-red-600"
+                          onClick={() => handleKick(member.id)}
+                        >
                           Kick
                           <DoorOpen />
                         </Button>

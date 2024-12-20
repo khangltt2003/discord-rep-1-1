@@ -2,8 +2,8 @@ import { v4 as uuidv4 } from "uuid";
 
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
-import { NextResponse } from "next/server";
 import { ChannelType, MemberRole } from "@prisma/client";
+import { NextResponse } from "next/server";
 
 //create server
 export async function POST(req: Request) {
@@ -22,7 +22,11 @@ export async function POST(req: Request) {
         channels: {
           create: [
             { name: "general", profileId: profile.id },
-            { name: "first voice chat", profileId: profile.id, type: ChannelType.AUDIO },
+            {
+              name: "first voice chat",
+              profileId: profile.id,
+              type: ChannelType.AUDIO,
+            },
           ],
         },
         members: {

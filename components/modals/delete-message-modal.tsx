@@ -12,23 +12,21 @@ import { Button } from "@/components/ui/button";
 import { useModal } from "@/hooks/use-modal-store";
 import { useEffect, useState } from "react";
 
-import { Loader2 } from "lucide-react";
-
 import axios from "axios";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-// import { initialConversation } from "@/lib/initial-conversation";
-// import { currentProfile } from "@/lib/current-profile";
+import queryString from "query-string";
 
-export const CreateConversation = () => {
+export const DeleteMessageModal = () => {
   const { isOpen, onClose, type, data } = useModal();
 
   const [isMounted, setIsMounted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const isModalOpen = isOpen && type === "createConversation";
+  const isModalOpen = isOpen && type === "deleteMessage";
 
-  const { profile } = data;
+  const { socketUrl, socketQuery, message } = data;
 
   useEffect(() => {
     setIsMounted(true);
@@ -38,17 +36,16 @@ export const CreateConversation = () => {
     return null;
   }
 
-  const handleCreateConversation = async () => {
+  const handleDeleteMessage = async () => {
     try {
       setIsLoading(true);
-
-      const response = await axios.post("/api/conversations", {
-        memberTwoId: profile?.id,
+      const url = queryString.stringifyUrl({
+        url: `${socketUrl}/${message?.id}`,
+        query: socketQuery,
       });
-
-      router.refresh();
+      await axios.delete(url);
       onClose();
-      router.push(`/conversations/${response.data.id}`);
+      router.refresh();
     } catch (error) {
       console.log(error);
     } finally {
@@ -61,12 +58,12 @@ export const CreateConversation = () => {
       <DialogContent className="bg-neutral-700 text-white p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className="text-2xl text-center font-bold">
-            Create Conversation
+            Delete Message
           </DialogTitle>
         </DialogHeader>
         <div className="px-6">
-          Do you want to chat with{" "}
-          <span className="font-bold">{profile?.name}</span> ?
+          Are you sure you want to delete{" "}
+          <span className="italic">{message?.content}</span>?
         </div>
         <DialogFooter>
           <div className="px-6  py-3 ml-auto">
@@ -82,9 +79,9 @@ export const CreateConversation = () => {
                 <Button
                   variant={"destructive"}
                   className="bg-red-600 hover:bg-red-700"
-                  onClick={handleCreateConversation}
+                  onClick={handleDeleteMessage}
                 >
-                  Chat
+                  Delete
                 </Button>
               </>
             ) : (

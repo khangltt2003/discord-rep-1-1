@@ -1,5 +1,5 @@
-import { currentUser } from "@clerk/nextjs/server";
 import { db } from "@/lib/db";
+import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 export const initialProfile = async () => {

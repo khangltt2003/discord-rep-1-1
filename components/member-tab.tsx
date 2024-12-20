@@ -1,9 +1,9 @@
 "use client";
-import { MemberRole, Profile } from "@prisma/client";
-import { UserAvatar } from "./user-avatar";
-import { ShieldAlert, ShieldCheck } from "lucide-react";
 import { useModal } from "@/hooks/use-modal-store";
 import { cn } from "@/lib/utils";
+import { MemberRole, Profile } from "@prisma/client";
+import { ShieldAlert, ShieldCheck } from "lucide-react";
+import { UserAvatar } from "./user-avatar";
 
 const roleIconMap = {
   ADMIN: <ShieldAlert className="h-5 w-5 text-red-400" />,
@@ -22,7 +22,9 @@ export const ServerMemberTab = ({ role, profile }: ServerMemberTabProps) => {
 
   return (
     <div
-      className={cn("flex items-center gap-x-3 mb-2 p-1  rounded-lg hover:text-neutral-300 hover:bg-neutral-700 cursor-pointer")}
+      className={cn(
+        "flex items-center gap-x-3 mb-2 p-1  rounded-lg hover:text-neutral-300 hover:bg-neutral-700 cursor-pointer",
+      )}
       onClick={() => onOpen("createConversation", { profile })}
     >
       <UserAvatar src={profile.imageUrl} className={"h-1 w-1"} />

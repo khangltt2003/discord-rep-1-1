@@ -1,20 +1,36 @@
 "use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
 
-import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogHeader, DialogFooter } from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 
 import dynamic from "next/dynamic";
 
-const FileUpload = dynamic(() => import("@/components/file-upload"), { ssr: false });
+const FileUpload = dynamic(() => import("@/components/file-upload"), {
+  ssr: false,
+});
 
 const formSchema = z.object({
   name: z.string().min(1, {
@@ -62,8 +78,12 @@ export const InitialModal = () => {
     <Dialog open>
       <DialogContent className="bg-neutral-600 text-neutral-300 p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
-          <DialogTitle className="text-2xl text-center font-bold">Create your server</DialogTitle>
-          <DialogDescription className="text-center text-zinc-500">Give your server a name and an image.</DialogDescription>
+          <DialogTitle className="text-2xl text-center font-bold">
+            Create your server
+          </DialogTitle>
+          <DialogDescription className="text-center text-zinc-500">
+            Give your server a name and an image.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -75,7 +95,11 @@ export const InitialModal = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <FileUpload endpoint="serverImage" value={field.value} onChange={field.onChange} />
+                        <FileUpload
+                          endpoint="serverImage"
+                          value={field.value}
+                          onChange={field.onChange}
+                        />
                       </FormControl>
                     </FormItem>
                   )}
@@ -86,7 +110,9 @@ export const InitialModal = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">Sever Name</FormLabel>
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                      Sever Name
+                    </FormLabel>
                     <FormControl>
                       <Input
                         disabled={isLoading}

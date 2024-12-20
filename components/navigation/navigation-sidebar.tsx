@@ -1,13 +1,12 @@
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
-import { redirect } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
 
 import NavigationAction from "@/components/navigation/navigation-action";
-import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import NavigationItem from "@/components/navigation/navigation-item";
-import { ModeToggle } from "@/components/mode-toggle";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import NavigationConversation from "./navigation-conversation";
 
 export const NavigationSidebar = async () => {
@@ -40,7 +39,12 @@ export const NavigationSidebar = async () => {
         {servers.map((server) => {
           return (
             <div key={server.id} className="mb-2">
-              <NavigationItem key={server.id} id={server.id} imageUrl={server.imageUrl} name={server.name} />
+              <NavigationItem
+                key={server.id}
+                id={server.id}
+                imageUrl={server.imageUrl}
+                name={server.name}
+              />
             </div>
           );
         })}

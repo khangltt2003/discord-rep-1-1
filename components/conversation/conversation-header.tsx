@@ -1,5 +1,5 @@
 import { Profile } from "@prisma/client";
-import { Hash, LucideMessageSquareText } from "lucide-react";
+import { LucideMessageSquareText } from "lucide-react";
 import { SocketIndicator } from "../socket-indicator";
 
 export const ConversationHeader = ({ memberTwo }: { memberTwo: Profile }) => {

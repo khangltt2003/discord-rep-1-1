@@ -16,7 +16,9 @@ export async function POST(req: Request) {
     }
 
     if (profile.id === memberTwoId) {
-      return new NextResponse("cannot create conversation with yourself", { status: 400 });
+      return new NextResponse("cannot create conversation with yourself", {
+        status: 400,
+      });
     }
 
     const conversation = await db.conversation.findFirst({

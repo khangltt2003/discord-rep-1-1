@@ -3,7 +3,10 @@ import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 //update server image and name
-export async function PATCH(req: Request, props: { params: Promise<{ serverId: string }> }) {
+export async function PATCH(
+  req: Request,
+  props: { params: Promise<{ serverId: string }> },
+) {
   const params = await props.params;
   const { name, imageUrl } = await req.json();
 
@@ -31,7 +34,10 @@ export async function PATCH(req: Request, props: { params: Promise<{ serverId: s
 }
 
 //delete server
-export async function DELETE(req: Request, props: { params: Promise<{ serverId: string }> }) {
+export async function DELETE(
+  req: Request,
+  props: { params: Promise<{ serverId: string }> },
+) {
   const params = await props.params;
   try {
     const profile = await currentProfile();

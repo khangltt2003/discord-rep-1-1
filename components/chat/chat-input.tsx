@@ -1,31 +1,36 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
 import { Input } from "../ui/input";
-import { Plus } from "lucide-react";
 
-import axios from "axios";
-import queryString from "query-string";
 import { useModal } from "@/hooks/use-modal-store";
 import { MessageType } from "@prisma/client";
-import { EmojiPicker } from "../emoji-picker";
+import axios from "axios";
 import { useRouter } from "next/navigation";
+import queryString from "query-string";
+import { EmojiPicker } from "../emoji-picker";
 
 const formSchema = z.object({
   content: z.string().min(1),
 });
 
 interface ChatInputProps {
-  apiUrl: string;
-  query: Record<string, any>;
+  socketUrl: string;
+  socketQuery: Record<string, string>;
   name: string;
   type: "conversation" | "channel";
 }
 
-export const ChannelInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
+export const ChannelInput = ({
+  socketUrl,
+  socketQuery,
+  name,
+  type,
+}: ChatInputProps) => {
   const router = useRouter();
   const { onOpen } = useModal();
 
@@ -41,8 +46,8 @@ export const ChannelInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
   const handleSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = queryString.stringifyUrl({
-        url: apiUrl,
-        query,
+        url: socketUrl,
+        query: socketQuery,
       });
 
       await axios.post(url, { ...values, type: MessageType.TEXT });
@@ -73,12 +78,21 @@ export const ChannelInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
                     {...field}
                   />
                   <div className="absolute top-[50%] translate-y-[-50%] right-2 flex items-center gap-2">
-                    <EmojiPicker onPick={(emoji) => field.onChange(`${field.value}${emoji}`)} />
+                    <EmojiPicker
+                      onPick={(emoji) =>
+                        field.onChange(`${field.value}${emoji}`)
+                      }
+                    />
 
                     <button
                       type="button"
                       className=" bg-neutral-400 rounded-full hover:bg-neutral-300"
-                      onClick={() => onOpen("messageFile", { apiUrl, query })}
+                      onClick={() =>
+                        onOpen("messageFile", {
+                          socketUrl: socketUrl,
+                          socketQuery: socketQuery,
+                        })
+                      }
                     >
                       <Plus className="text-neutral-700 h-6 w-6" />
                     </button>
