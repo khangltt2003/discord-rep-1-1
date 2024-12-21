@@ -17,60 +17,56 @@ export const useChatSocket = ({ addKey, updateKey, queryKey }: ChatSocketProps) 
   useEffect(() => {
     if (!socket) return;
 
-    socket.on(updateKey, (message: MessageWithMemberProfile) => {
+    socket.on(updateKey, (updatedMessage: MessageWithMemberProfile) => {
+      // console.log("updated message", updatedMessage);
       queryClient.setQueryData([queryKey], (oldData: any) => {
         if (!oldData || !oldData.pages || oldData.pages.length === 0) {
           return oldData;
         }
 
-        const newData = oldData.pages.map((page: any) => {
+        const newPages = oldData.pages.map((page: any) => {
           return {
             ...page,
-            items: page.items.map((item: MessageWithMemberProfile) => {
-              if (item.id === message.id) {
-                return message;
+            messages: page.messages.map((message: MessageWithMemberProfile) => {
+              if (message.id === updatedMessage.id) {
+                return updatedMessage;
               }
-              return item;
+              return message;
             }),
           };
         });
 
-        return {
-          ...oldData,
-          pages: newData,
-        };
+        return { ...oldData, pages: newPages };
       });
     });
 
-    socket.on(addKey, (message: MessageWithMemberProfile) => {
+    socket.on(addKey, (newMessage: MessageWithMemberProfile) => {
+      // console.log("new message", newMessage);
       queryClient.setQueryData([queryKey], (oldData: any) => {
         if (!oldData || !oldData.pages || oldData.pages.length === 0) {
           return {
-            pages: [
-              {
-                items: [message],
-              },
-            ],
+            pages: [{ messages: [newMessage] }],
           };
         }
 
-        const newData = [...oldData.pages];
-
-        newData[0] = {
-          ...newData[0],
-          items: [message, ...newData[0].items],
+        const newPages = [...oldData.pages];
+        //add new message to the first page
+        newPages[0] = {
+          ...newPages[0],
+          messages: [newMessage, ...newPages[0].messages],
         };
 
-        return {
-          ...oldData,
-          pages: newData,
-        };
+        return { ...oldData, pages: newPages };
       });
+    });
+
+    socket.onAny((event, ...args) => {
+      console.log(`[Socket.IO Event Triggered]: "${event}" with args:`, args);
     });
 
     return () => {
       socket.off(addKey);
       socket.off(updateKey);
     };
-  }, [queryClient, addKey, queryKey, socket, updateKey]);
+  }, [socket, queryClient, queryKey, addKey, updateKey]);
 };

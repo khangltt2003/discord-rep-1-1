@@ -22,12 +22,13 @@ interface ChatMessagesProps {
 
 export const ChannelMessages = ({ currentMember, name, chatId, apiUrl, socketUrl, socketQuery, paramKey, paramValue, type }: ChatMessagesProps) => {
   const queryKey = `chat:${chatId}`;
-
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage, status } = useChatQuery({ queryKey, apiUrl, paramKey, paramValue });
+
   const updateKey = `channel-${chatId}-update-messages`;
   const addKey = `channel-${chatId}-new-messages`;
 
   useChatSocket({ queryKey, addKey, updateKey });
+
   if (status == "pending") {
     return (
       <div className="flex-1 w-full h-12 flex flex-col items-center justify-center text-neutral-300">

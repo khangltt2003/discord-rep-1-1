@@ -47,13 +47,13 @@ export const MessageFileModal = () => {
 
   const isLoading = form.formState.isSubmitting;
 
-  const { apiUrl, query } = data;
+  const { socketUrl, socketQuery } = data;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       const url = queryString.stringifyUrl({
-        url: apiUrl || "",
-        query: query,
+        url: socketUrl || "",
+        query: socketQuery,
       });
       await axios.post(url, {
         ...values,
