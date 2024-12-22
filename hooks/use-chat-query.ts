@@ -25,6 +25,8 @@ export const useChatQuery = ({ queryKey, apiUrl, paramKey, paramValue }: ChatQue
       { skipNull: true }
     );
     const response = await axios.get(url);
+    //sleep
+    await new Promise((r) => setTimeout(r, 1000));
     return response.data;
   };
 

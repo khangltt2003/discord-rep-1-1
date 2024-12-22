@@ -3,7 +3,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import { useChatQuery } from "@/hooks/use-chat-query";
 import { MessageWithMemberProfile } from "@/type";
 import { Member } from "@prisma/client";
-import { Hash, Loader, Loader2, MessageCircle, ServerCrash } from "lucide-react";
+import { ChevronUp, Hash, Loader, Loader2, MessageCircle, ServerCrash } from "lucide-react";
 import { ElementRef, Fragment, useEffect, useRef, useCallback, useState } from "react";
 import { ChatItem } from "./chat-item";
 import { useChatSocket } from "@/hooks/use-chat-socket";
@@ -100,12 +100,13 @@ export const ChannelMessages = ({ currentMember, name, chatId, apiUrl, socketUrl
           </div>
         )}
         {hasNextPage && (
-          <div className=" h-12 flex justify-center items-center absolute right-[50%] translate-x-[50%]">
+          <div className="sticky top-0 w-full flex items-center justify-center ">
             {isFetchingNextPage ? (
-              <Loader className="h-6 w-6 text-neutral-300 animate-spin" />
+              <Loader className="h-6 w-6 text-neutral-200 animate-spin" />
             ) : (
-              <div className="w-full h-12 flex items-center justify-center">
-                <p className=" text-neutral-300">scroll up to view older messages</p>
+              <div className="bg-zinc-700 rounded-full px-4 py-2 flex gap-1 z-50 animate-bounce">
+                <p className="text-neutral-300">scroll up to view older messages</p>
+                <ChevronUp />
               </div>
             )}
           </div>
