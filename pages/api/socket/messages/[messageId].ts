@@ -85,11 +85,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
     if (!canEdit) {
       return res.status(400).json({ error: "cannot modify this message" });
     }
+    if (!isOwner) {
+      return res.status(400).json({ error: "cannot edit this message" });
+    }
 
     if (req.method === "PATCH") {
-      if (!isOwner) {
-        return res.status(400).json({ error: "cannot edit this message" });
-      }
       message = await db.message.update({
         where: {
           id: messageId as string,
