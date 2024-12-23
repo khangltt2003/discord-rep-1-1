@@ -35,18 +35,18 @@ const ConversationPage = async (props: { params: Promise<{ conversationId: strin
     return redirect("/");
   }
 
-  const memberTwo = conversation.memberOneId === profile.id ? conversation.memberTwo : conversation.memberOne;
+  const secondMember = conversation.memberOneId === profile.id ? conversation.memberTwo : conversation.memberOne;
 
   return (
     <div className="bg-white dark:bg-[#00000014] h-full flex flex-col ">
       <div>
-        <ConversationHeader memberTwo={memberTwo} />
+        <ConversationHeader memberTwo={secondMember} />
       </div>
       <div className="flex w-full h-full overflow-y-auto">
         <div className=" h-full w-full flex flex-col ">
           <ConversationMessages
-            currentMember={conversation.memberOne}
-            name={memberTwo.name}
+            currentMember={profile}
+            name={secondMember.name}
             chatId={conversation.id}
             apiUrl="/api/directmessages/"
             socketUrl="/api/socket/directmessages"
@@ -57,7 +57,7 @@ const ConversationPage = async (props: { params: Promise<{ conversationId: strin
           />
           <div className="px-4 py-3">
             <ChannelInput
-              name={memberTwo.name}
+              name={secondMember.name}
               type="conversation"
               socketUrl="/api/socket/directmessages"
               socketQuery={{ conversationId: conversation.id }}
@@ -66,7 +66,7 @@ const ConversationPage = async (props: { params: Promise<{ conversationId: strin
         </div>
 
         <div className="hidden md:flex flex-col w-96 z-20 bg-[#00000045]  ">
-          <ProfileCard memberTwo={memberTwo} />
+          <ProfileCard memberTwo={secondMember} />
         </div>
       </div>
     </div>
