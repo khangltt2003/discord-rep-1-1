@@ -35,8 +35,8 @@ export const ConversationChatItem = ({ currentMember, message, socketUrl, socket
   const [isEditing, setIsEditing] = useState(false);
   const { onOpen } = useModal();
 
-  const { id, content, type, fileUrl, isDeleted, createdAt, updatedAt, profileId } = message;
-  const { name, imageUrl } = currentMember;
+  const { id, content, type, fileUrl, isDeleted, createdAt, updatedAt, profile, profileId } = message;
+  const { name, imageUrl } = profile;
 
   const timestamp = format(new Date(createdAt), "hh:mm a");
 
@@ -97,15 +97,13 @@ export const ConversationChatItem = ({ currentMember, message, socketUrl, socket
   return (
     <div className="flex items-start gap-x-3 p-2 hover:bg-[#58585f4d]  rounded-xl group relative">
       {/* edit and delete */}
-      {!isDeleted && (
+      {!isDeleted && isOwner && (
         <div className="hidden group-hover:flex  gap-1 absolute top-[-10px] right-3  z-30 bg-[#424549] rounded-lg p-2">
-          {isOwner && <PenSquare className="h-5 w-5 text-neutral-300 hover:text-neutral-100" onClick={handleEdit} />}
-          {isOwner && (
-            <Trash2
-              className="h-5 w-5 text-rose-600 hover:text-rose-500 "
-              onClick={() => onOpen("deleteMessage", { socketUrl, socketQuery, message })}
-            />
-          )}
+          <PenSquare className="h-5 w-5 text-neutral-300 hover:text-neutral-100" onClick={handleEdit} />
+          <Trash2
+            className="h-5 w-5 text-rose-600 hover:text-rose-500 "
+            onClick={() => onOpen("deleteMessage", { socketUrl, socketQuery, message })}
+          />
         </div>
       )}
       <div className="cursor-pointer">
