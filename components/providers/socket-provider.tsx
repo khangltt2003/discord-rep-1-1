@@ -26,8 +26,6 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       addTrailingSlash: false,
     });
 
-    setSocket(socketInstance);
-
     socketInstance.on("connect", () => {
       setIsConnected(true);
     });
@@ -35,6 +33,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     socketInstance.on("disconnect", () => {
       setIsConnected(false);
     });
+    setSocket(socketInstance);
 
     return () => {
       socketInstance.disconnect();

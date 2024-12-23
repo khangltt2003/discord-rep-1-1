@@ -1,9 +1,9 @@
 "use client";
 
-import { MessageWithMemberProfile } from "@/type";
-import { Member, MemberRole, MessageType } from "@prisma/client";
+import { DirectMessageWithProfile } from "@/type";
+import { MessageType, Profile } from "@prisma/client";
 import { format } from "date-fns";
-import { FileText, PenSquare, ShieldAlert, ShieldCheck, Trash2 } from "lucide-react";
+import { FileText, PenSquare, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { UserAvatar } from "../user-avatar";
@@ -23,34 +23,24 @@ const formSchema = z.object({
   content: z.string().min(1),
 });
 
-const roleIconMap = {
-  ADMIN: <ShieldAlert className="h-5 w-5 text-red-400" />,
-  MODERATOR: <ShieldCheck className="h-5 w-5 text-blue-400" />,
-  GUEST: null,
-};
-
-interface ChatItemProps {
-  currentMember: Member;
-  message: MessageWithMemberProfile;
+interface ConversationChatItemProps {
+  currentMember: Profile;
+  message: DirectMessageWithProfile;
   socketUrl: string;
   socketQuery: Record<string, string>;
+  type: "conversation" | "channel";
 }
 
-export const ChatItem = ({ currentMember, message, socketUrl, socketQuery }: ChatItemProps) => {
+export const ConversationChatItem = ({ currentMember, message, socketUrl, socketQuery }: ConversationChatItemProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const { onOpen } = useModal();
 
-  const { id, content, member, type, fileUrl, isDeleted, createdAt, updatedAt } = message;
-  const { name, imageUrl } = member.profile;
+  const { id, content, type, fileUrl, isDeleted, createdAt, updatedAt, profileId } = message;
+  const { name, imageUrl } = currentMember;
 
   const timestamp = format(new Date(createdAt), "hh:mm a");
 
-  const isAdmin = currentMember.role === MemberRole.ADMIN;
-  const isMod = currentMember.role === MemberRole.MODERATOR;
-  const isOwner = currentMember.id === member.id;
-
-  const canDeleteMessage = !isDeleted && (isAdmin || isMod || isOwner);
-  const canEditMessage = !isDeleted && isOwner && type == MessageType.TEXT;
+  const isOwner = currentMember.id === profileId;
 
   const isEdited = createdAt === updatedAt ? false : true;
 
@@ -109,8 +99,8 @@ export const ChatItem = ({ currentMember, message, socketUrl, socketQuery }: Cha
       {/* edit and delete */}
       {!isDeleted && (
         <div className="hidden group-hover:flex  gap-1 absolute top-[-10px] right-3  z-30 bg-[#424549] rounded-lg p-2">
-          {canEditMessage && <PenSquare className="h-5 w-5 text-neutral-300 hover:text-neutral-100" onClick={handleEdit} />}
-          {canDeleteMessage && (
+          {isOwner && <PenSquare className="h-5 w-5 text-neutral-300 hover:text-neutral-100" onClick={handleEdit} />}
+          {isOwner && (
             <Trash2
               className="h-5 w-5 text-rose-600 hover:text-rose-500 "
               onClick={() => onOpen("deleteMessage", { socketUrl, socketQuery, message })}
@@ -118,18 +108,12 @@ export const ChatItem = ({ currentMember, message, socketUrl, socketQuery }: Cha
           )}
         </div>
       )}
-      <div className="cursor-pointer" onClick={() => onOpen("createConversation", { profile: member.profile })}>
+      <div className="cursor-pointer">
         <UserAvatar src={imageUrl} className="md:h-10 md:w-10" />
       </div>
       <div className="flex flex-col w-full">
         <div className="flex items-center space-x-2">
-          <span
-            className="font-semibold group text-neutral-300 group-hover:text-neutral-200 hover:underline cursor-pointer"
-            onClick={() => onOpen("createConversation", { profile: member.profile })}
-          >
-            {name}
-          </span>
-          {roleIconMap[member.role]}
+          <span className="font-semibold group text-neutral-300 group-hover:text-neutral-200 hover:underline cursor-pointer">{name}</span>
           <span className="text-xs text-gray-400 ">{timestamp}</span>
         </div>
 

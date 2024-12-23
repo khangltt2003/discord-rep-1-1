@@ -33,7 +33,7 @@ model Profile{
   conversationCreated Conversation[] @relation("memberOne")
   conversationJoined Conversation[] @relation("memberTwo")
 
-  conversationMessages ConversationMessage []
+  directMessages DirectMessage []
 
 
   channels Channel[]
@@ -148,7 +148,7 @@ model Conversation {
   memberTwoId String
   memberTwo Profile @relation("memberTwo", fields: [memberTwoId], references: [id], onDelete: Cascade)
 
-  messages ConversationMessage[]
+  messages DirectMessage[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -158,12 +158,13 @@ model Conversation {
   @@unique([memberOneId, memberTwoId])
 }
 
-model ConversationMessage {
+model DirectMessage {
   id String @id @default(uuid())
 
   content String @db.Text
   fileUrl String? @db.Text
-
+  
+  type MessageType @default(TEXT)
 
   profileId String
   profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)

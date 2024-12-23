@@ -2,14 +2,7 @@ import { Server as NetServer, Socket } from "net";
 import { NextApiResponse } from "next";
 import { Server as SocketIOServer } from "socket.io";
 
-import {
-  Channel,
-  Conversation,
-  Member,
-  Message,
-  Profile,
-  Server,
-} from "@prisma/client";
+import { Channel, Conversation, DirectMessage, Member, Message, Profile, Server } from "@prisma/client";
 
 export type ServerWithMembersWithProfiles = Server & {
   members: (Member & {
@@ -37,6 +30,8 @@ export type MessageWithMemberProfile = Message & {
     profile: Profile;
   };
 };
+
+export type DirectMessageWithProfile = DirectMessage & { profile: Profile };
 
 export type ConversationWithMemberProfile = Conversation & {
   memberOne: Profile;
