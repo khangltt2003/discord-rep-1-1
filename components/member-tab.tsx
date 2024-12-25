@@ -6,8 +6,8 @@ import { ShieldAlert, ShieldCheck } from "lucide-react";
 import { UserAvatar } from "./user-avatar";
 
 const roleIconMap = {
-  ADMIN: <ShieldAlert className="h-5 w-5 text-red-400" />,
-  MODERATOR: <ShieldCheck className="h-5 w-5 text-blue-400" />,
+  ADMIN: <ShieldAlert className="ml-auto h-5 w-5 text-red-400" />,
+  MODERATOR: <ShieldCheck className="ml-auto h-5 w-5 text-blue-400" />,
   GUEST: null,
 };
 

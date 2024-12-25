@@ -5,15 +5,21 @@ import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { ConversationMessages } from "@/components/conversation/conversation-messages";
+import VideoRoom from "@/components/video-room";
+import { tuple } from "zod";
 
-const ConversationPage = async (props: { params: Promise<{ conversationId: string }> }) => {
+const ConversationPage = async (props: { params: Promise<{ conversationId: string }>; searchParams: { [key: string]: boolean | undefined } }) => {
+  const params = await props.params;
+  const searchParams = props.searchParams;
+
+  const audio = !!searchParams.audio || false;
+  const video = !!searchParams.video || false;
+
   const profile = await currentProfile();
 
   if (!profile) {
     return redirect("/sign-in");
   }
-
-  const params = await props.params;
 
   const conversationId = params.conversationId;
 
@@ -42,33 +48,37 @@ const ConversationPage = async (props: { params: Promise<{ conversationId: strin
       <div>
         <ConversationHeader memberTwo={secondMember} />
       </div>
-      <div className="flex w-full h-full overflow-y-auto">
-        <div className=" h-full w-full flex flex-col ">
-          <ConversationMessages
-            currentMember={profile}
-            name={secondMember.name}
-            chatId={conversation.id}
-            apiUrl="/api/directmessages/"
-            socketUrl="/api/socket/directmessages"
-            socketQuery={{ conversationId: conversation.id }}
-            paramKey="conversationId"
-            paramValue={conversation.id}
-            type="conversation"
-          />
-          <div className="px-4 py-3">
-            <ChannelInput
+      {!audio && !video && (
+        <div className="flex w-full h-full overflow-y-auto">
+          <div className=" h-full w-full flex flex-col ">
+            <ConversationMessages
+              currentMember={profile}
               name={secondMember.name}
-              type="conversation"
+              chatId={conversation.id}
+              apiUrl="/api/directmessages/"
               socketUrl="/api/socket/directmessages"
               socketQuery={{ conversationId: conversation.id }}
+              paramKey="conversationId"
+              paramValue={conversation.id}
+              type="conversation"
             />
+            <div className="px-4 py-3">
+              <ChannelInput
+                name={secondMember.name}
+                type="conversation"
+                socketUrl="/api/socket/directmessages"
+                socketQuery={{ conversationId: conversation.id }}
+              />
+            </div>
+          </div>
+
+          <div className="hidden md:flex flex-col w-96 z-20 bg-[#00000045]  ">
+            <ProfileCard memberTwo={secondMember} />
           </div>
         </div>
-
-        <div className="hidden md:flex flex-col w-96 z-20 bg-[#00000045]  ">
-          <ProfileCard memberTwo={secondMember} />
-        </div>
-      </div>
+      )}
+      {audio && <VideoRoom chatId={conversation.id} audio={true} video={false} />}
+      {video && <VideoRoom chatId={conversation.id} audio={true} video={true} />}
     </div>
   );
 };
