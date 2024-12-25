@@ -6,7 +6,6 @@ import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { ConversationMessages } from "@/components/conversation/conversation-messages";
 import VideoRoom from "@/components/video-room";
-import { tuple } from "zod";
 
 const ConversationPage = async (props: { params: Promise<{ conversationId: string }>; searchParams: { [key: string]: boolean | undefined } }) => {
   const params = await props.params;
