@@ -13,6 +13,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import queryString from "query-string";
 import { EmojiPicker } from "../emoji-picker";
+import { useRef } from "react";
 
 const formSchema = z.object({
   content: z.string().min(1),
@@ -28,6 +29,7 @@ interface ChatInputProps {
 export const ChannelInput = ({ socketUrl, socketQuery, name, type }: ChatInputProps) => {
   const router = useRouter();
   const { onOpen } = useModal();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,6 +50,13 @@ export const ChannelInput = ({ socketUrl, socketQuery, name, type }: ChatInputPr
       await axios.post(url, { ...values, type: MessageType.TEXT });
       form.reset();
       router.refresh();
+      //settimeout to wait for the form to reset completely
+
+      setTimeout(() => {
+        if (inputRef.current) {
+          inputRef.current.focus();
+        }
+      }, 300);
     } catch (error) {
       console.log(error);
     }
@@ -65,12 +74,13 @@ export const ChannelInput = ({ socketUrl, socketQuery, name, type }: ChatInputPr
               <FormControl>
                 <div className="relative">
                   <Input
+                    {...field}
                     disabled={isLoading}
                     autoComplete="off"
-                    autoFocus
+                    autoFocus={true}
                     className="focus-visible:ring-offset-0 focus-visible:ring-0 bg-neutral-700 pr-10 text-neutral-300 text-base"
                     placeholder={`Message ${type === "conversation" ? name : "# " + name}  `}
-                    {...field}
+                    ref={inputRef}
                   />
                   <div className="absolute top-[50%] translate-y-[-50%] right-2 flex items-center gap-2">
                     <EmojiPicker onPick={(emoji) => field.onChange(`${field.value}${emoji}`)} />

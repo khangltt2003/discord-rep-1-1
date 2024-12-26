@@ -1,6 +1,6 @@
 "use client";
 
-import { ControlBar, GridLayout, LiveKitRoom, ParticipantTile, RoomAudioRenderer, useTracks } from "@livekit/components-react";
+import { ControlBar, GridLayout, LiveKitRoom, ParticipantTile, RoomAudioRenderer, useTracks, VideoConference } from "@livekit/components-react";
 
 import "@livekit/components-styles";
 
@@ -46,7 +46,6 @@ export default function VideoRoom({ chatId, video, audio }: VideoRoomProps) {
       </div>
     );
   }
-  console.log(process.env.LIVEKIT_URL);
   return (
     <LiveKitRoom
       video={video}
@@ -55,7 +54,7 @@ export default function VideoRoom({ chatId, video, audio }: VideoRoomProps) {
       serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
       // Use the default LiveKit theme for nice styles.
       data-lk-theme="default"
-      className="w-full h-full flex flex-col"
+      className="w-full h-full flex flex-col overflow-auto"
       connect={true}
     >
       {/* Your custom component with basic video conferencing functionality. */}
